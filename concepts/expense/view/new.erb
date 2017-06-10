@@ -1,0 +1,6 @@
+<h1>Create expense</h1>
+
+<%= Object.new.extend(Formular::Helper).form(model, "/expenses/") do |f| %>
+  <%= f.input :title, placeholder: "Title" %>
+  <%= f.submit(value: "Save")  %>
+<% end %>
