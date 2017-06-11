@@ -21,9 +21,32 @@ module Expense::Twin
     unnest :qty, from: :content
     unnest :paid_at, from: :content
 
+    # FIXME: only needed for Create/Update
+    # This sits here since we want the twin.unit_price = 1.2 everywhere.
+    # THIS IS WHY super sucks and circuits rule:
+    module UnitPrice
+      def unit_price=(v)
+        v= super(v)
+        super(v * 100)
+      end
+    end
+    include UnitPrice
+
     # FIXME: only needed for Index/Show
     def effective_amount
-      unit_price * content.qty * 234.2
+      converted = Money.new(unit_price * content.qty, currency).exchange_to("SGD")
+      "#{converted.currency} #{converted.format}"
+    end
+
+    # FIXME: only needed for Show
+    def amount
+      price = Money.new(unit_price, currency)
+      "#{price.currency} #{price.format}"
+    end
+
+    # DISCUSS: only in cell?
+    def description
+      [ source, super ].compact.join(" / ")
     end
 
     # FIXME: only needed for Create/Update

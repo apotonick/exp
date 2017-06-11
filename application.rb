@@ -15,6 +15,10 @@ require "disposable/twin/property/hash"
 # 02_cells.rb
 Trailblazer::Cell.send :include, Cell::Erb
 
+# 03_money.rb
+I18n.config.available_locales = :en
+Money.add_rate("EUR", "SGD", 1.55) # Not a fan of this API.
+
 Reform::Form.class_eval do
   include Reform::Form::Dry
 end

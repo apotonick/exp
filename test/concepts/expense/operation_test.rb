@@ -8,8 +8,11 @@ class ExpenseOperationTest < Minitest::Spec
     model = result["model"]
 
     model.source.must_equal "Biosk"
-    model.description.must_equal "Beer"
-    model.unit_price.must_equal 1.2 # coerced!
+    model.description.must_equal "Biosk / Beer"
+    model.unit_price.must_equal 120 # coerced and centified!
     model.currency.must_equal "EUR"
+
+    # twin test
+    model.amount.must_equal %{EUR €1,20}
   end
 end

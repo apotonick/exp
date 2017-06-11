@@ -3,7 +3,7 @@ module Expense::Cell
     include Cell::Erb
 
     def model
-      Expense::Row.all.collect { |row| Expense::Twin::Create.new(row) }
+      Expense::Row.all.reverse.collect { |row| Expense::Twin::Create.new(row) }
     end
 
     class Row < Trailblazer::Cell
