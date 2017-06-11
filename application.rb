@@ -33,9 +33,11 @@ module Exp
     end
 
     # Get assets going.
+    # the appends tell sprockets where files *could* be, no types, nothing.
     set :environment, Sprockets::Environment.new
     environment.append_path "assets/css"
     environment.append_path "assets/js"
+    environment.append_path "assets"
 
     get "/assets/*" do
       env["PATH_INFO"].sub!("/assets", "")
