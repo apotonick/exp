@@ -9,23 +9,15 @@ module Expense::Form
     Money::Currency.table.values.collect { |currency| [ currency[:iso_code], currency[:iso_code] ] }
   end
 
+  # Note how the form doesn't know anything about the nested hash fields, etc.
+  # It simply relies on a flat property list, which is provided by the twin.
   class Create < Reform::Form
-    # feature Reform::Form::Coercion
-    include Disposable::Twin::Property::Hash
-
-    property :content, field: :hash do
-      property :source # e.g. "Starbucks Taiwan"
-      property :description
-      property :unit_price
-      property :qty, default: 1
-      property :currency
-      property :paid_at
-    end
-
-    unnest :description, from: :content
-    unnest :source, from: :content
-    unnest :unit_price, from: :content
-    unnest :currency, from: :content
+    property :source # e.g. "Starbucks Taiwan"
+    property :description
+    property :unit_price
+    property :qty, default: 1
+    property :currency
+    property :paid_at
 
     def currencies
       Expense::Form.currencies

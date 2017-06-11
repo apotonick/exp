@@ -1,0 +1,15 @@
+<%= model.size %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Currency</th>
+      <th>For you</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= cell Expense::Cell::Index::Row, collection: model %>
+  </tbody>
+</table>

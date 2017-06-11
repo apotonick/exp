@@ -12,6 +12,8 @@ require "trailblazer/operation"
 require "reform/form/dry"
 require "reform/form/coercion"
 require "disposable/twin/property/hash"
+# 02_cells.rb
+Trailblazer::Cell.send :include, Cell::Erb
 
 Reform::Form.class_eval do
   include Reform::Form::Dry
