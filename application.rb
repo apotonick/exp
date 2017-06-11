@@ -23,8 +23,8 @@ Trailblazer::Loader.new.(debug: false, concepts_root: "./concepts/") { |file|
 
 # In a Tamarama stack, you don't need app/concepts/ but only concepts/
 Trailblazer::Cell.view_paths = ["concepts"]
-# use Bootstrap 4
-Formular::Helper.builder(:bootstrap4)
+# use Bootstrap 3
+Formular::Helper.builder(:bootstrap3)
 
 module Exp
   class Application < Sinatra::Base
