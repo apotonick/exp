@@ -2,4 +2,4 @@ require "rack"
 
 
 require_relative "boot"
-run Application
+run Exp::Application

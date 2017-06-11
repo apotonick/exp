@@ -31,7 +31,15 @@ module Exp
     get "/expenses/new" do
       Expense::Endpoint::New.( params: params )
     end
+
+    # Get assets going.
+    set :environment, Sprockets::Environment.new
+    environment.append_path "assets/css"
+    environment.append_path "assets/js"
+
+    get "/assets/*" do
+      env["PATH_INFO"].sub!("/assets", "")
+      settings.environment.call(env)
+    end
   end
 end
-
-

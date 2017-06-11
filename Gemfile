@@ -13,6 +13,8 @@ gem "dry-validation"
 gem "cells-erb"
 gem "formular", path: "../formular"
 
+gem "sprockets"
+
 group :development, :test do
   gem 'dotenv'
   gem "rack-test"
