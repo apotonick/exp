@@ -379,8 +379,13 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <%= Object.new.extend(Formular::Helper).form(model, "/expenses/") do |f| %>
-                                      <%= f.input :title, placeholder: "Title", label: "Something cool" %>
+                                    <%= Object.new.extend(Formular::Helper).form(model, "/expenses", method: :post) do |f| %>
+                                      <%= f.input :source, placeholder: "Biosk Freiburg", label: "Paid to" %>
+                                      <%= f.input :description, placeholder: "Delicious coffee", label: "Description" %>
+                                      <%= f.row do %>
+                                        <%= f.input :unit_price, placeholder: "12.99", label: "Unit price", inline_col_class: ['col-md-6'] %>
+                                        <%= f.select(:currency, label: 'Public', inline_col_class: ['col-md-6'], collection: model.currencies) %>
+                                      <% end %>
                                       <%= f.submit content: "Save"  %>
                                     <% end %>
 

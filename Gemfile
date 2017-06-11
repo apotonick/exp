@@ -14,6 +14,7 @@ gem "cells-erb"
 gem "formular", path: "../formular"
 
 gem "sprockets"
+gem "money"
 
 group :development, :test do
   gem 'dotenv'
