@@ -6,7 +6,7 @@
   <td><%= receipt_link %></td>
   <td>
     <% if has_receipt? %>
-      <input type="checkbox" name="claim[<%= model.id %>]" class="claim_btn" data-on-text="Claim!" data-off-text="🔓" data-on-color="warning" unchecked>
+      <input type="checkbox" name="expenses[]" value="<%= model.id %>" class="claim_btn" data-on-text="Claim!" data-off-text="🔓" data-on-color="warning" unchecked>
     <% end %>
   </td>
 </tr>
