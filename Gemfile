@@ -11,14 +11,14 @@ gem "trailblazer-cells"
 gem "sequel"
 gem "dry-validation"
 gem "cells-erb"
-# gem "formular"#, path: "../formular"
 gem "formular", github: "trailblazer/formular"
-
 gem "sprockets"
 gem "money"
 
+# Because of how env is loaded - this needs to be in all env
+gem "dotenv"
+
 group :development, :test do
-  gem 'dotenv'
   gem "rack-test"
   # gem "match_json"
   gem 'database_cleaner'
