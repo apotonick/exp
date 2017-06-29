@@ -15,4 +15,11 @@ module Expense::Endpoint
       Expense::Cell::New.( result["contract.default"] ).(  )
     end
   end
+
+  def self.upload(params:, sinatra:, **)
+    result = Expense::Upload.( params )
+
+    # TODO: use representer, etc.
+    JSON.dump( { files: [{ path: result["files"][0].path }] } )
+  end
 end

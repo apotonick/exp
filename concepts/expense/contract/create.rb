@@ -1,4 +1,3 @@
-
 require "reform/form/coercion"
 module Types
   include Dry::Types.module
@@ -18,6 +17,7 @@ module Expense::Form
     property :qty, default: 1
     property :currency
     property :paid_at
+    property :file_path
 
     def currencies
       Expense::Form.currencies

@@ -386,10 +386,18 @@
                                         <%= f.input :unit_price, placeholder: "12.99", label: "Unit price", inline_col_class: ['col-md-6'] %>
                                         <%= f.select(:currency, label: 'Public', inline_col_class: ['col-md-6'], collection: model.currencies) %>
                                       <% end %>
-                                      <%= f.submit content: "Save"  %>
+                                      <%= f.hidden :file_path %>
+                                      <%= f.submit content: "Save", class: ["btn-primary", "btn-lg", "btn-block"]  %>
                                     <% end %>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
+
+                                <div class="col-lg-6">
+                                  Upload
+                                  <div id="fileupload"></div>
+                                  <textarea id="pasteZone" cols="33" rows="9"></textarea>
+                                  <span id="fileuploadName"></span>
+                                </div>
                             </div>
                             <!-- /.row (nested) -->
                         </div>

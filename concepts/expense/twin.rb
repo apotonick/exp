@@ -12,6 +12,7 @@ module Expense::Twin
       property :qty, default: 1
       property :currency
       property :paid_at
+      property :file_path
     end
 
     unnest :description, from: :content
@@ -20,6 +21,7 @@ module Expense::Twin
     unnest :currency, from: :content
     unnest :qty, from: :content
     unnest :paid_at, from: :content
+    unnest :file_path, from: :content
 
     # FIXME: only needed for Create/Update
     # This sits here since we want the twin.unit_price = 1.2 everywhere.
