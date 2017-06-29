@@ -14,11 +14,15 @@ module Expense::Cell
       property :identifier
 
       def receipt_link
-        return unless file_path
+        return unless has_receipt?
         # TODO: use Sinatra/Hanami's routing helpers.
         # todo: TEST if file_path
         name = identifier ? identifier : "Receipt"
         %{<a href="/files/#{file_path}" alt="#{file_path}"><i class="fa fa-file-o"></i> #{name}</a>}
+      end
+
+      def has_receipt?
+        file_path
       end
     end
   end

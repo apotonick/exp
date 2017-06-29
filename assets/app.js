@@ -5,4 +5,6 @@
 //= require vendor/jQuery-File-Upload-9.18.0/js/jquery.fileupload.js
 
 //= require vendor/metisMenu/metisMenu.js
+//= require vendor/bootstrap-switch-master/dist/js/bootstrap-switch.js
+
 //= require_tree ./js/

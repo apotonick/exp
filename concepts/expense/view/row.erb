@@ -1,7 +1,12 @@
 <tr>
-<td><%= model.description %></td>
-<td><%= model.amount %></td>
-<td><%= model.currency %></td>
-<td><%= model.effective_amount %></td>
-<td><%= receipt_link %></td>
+  <td><%= model.description %></td>
+  <td><%= model.amount %></td>
+  <td><%= model.currency %></td>
+  <td><%= model.effective_amount %></td>
+  <td><%= receipt_link %></td>
+  <td>
+    <% if has_receipt? %>
+      <input type="checkbox" name="claim[<%= model.id %>]" class="claim_btn" data-on-text="Claim!" data-off-text="🔓" data-on-color="warning" unchecked>
+    <% end %>
+  </td>
 </tr>
