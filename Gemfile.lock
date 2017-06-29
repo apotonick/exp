@@ -1,5 +1,6 @@
-PATH
-  remote: ../formular
+GIT
+  remote: git://github.com/trailblazer/formular.git
+  revision: a3fcfad1360642734ecc2e0250e618d91e879133
   specs:
     formular (0.2.1)
       declarative (~> 0.0.4)

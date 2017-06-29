@@ -22,4 +22,14 @@ module Expense::Endpoint
     # TODO: use representer, etc.
     JSON.dump( { files: [{ path: result["files"][0].path }] } )
   end
+
+  def self.claim(params:, sinatra:, **)
+    result = Expense::Claim.( params )
+
+    if result.success?
+      sinatra.redirect "/expenses/#{result["model"].id}"
+    else
+      "broken!"
+    end
+  end
 end

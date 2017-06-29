@@ -47,6 +47,10 @@ module Exp
       Expense::Endpoint.upload( params: params, sinatra: self )
     end
 
+    post "/claims" do
+      Expense::Endpoint.claim( params: params, sinatra: self )
+    end
+
     # Get assets going.
     # the appends tell sprockets where files *could* be, no types, nothing.
     set :environment, Sprockets::Environment.new

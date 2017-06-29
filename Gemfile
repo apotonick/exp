@@ -4,14 +4,15 @@ source 'https://rubygems.org'
 gem "rake"
 gem 'sinatra'
 gem 'pg'
-gem "reform"
+gem "reform"#, path: "../reform"
 gem "trailblazer"
 gem "trailblazer-loader"
 gem "trailblazer-cells"
 gem "sequel"
 gem "dry-validation"
 gem "cells-erb"
-gem "formular", path: "../formular"
+# gem "formular"#, path: "../formular"
+gem "formular", github: "trailblazer/formular"
 
 gem "sprockets"
 gem "money"
