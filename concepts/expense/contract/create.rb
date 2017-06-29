@@ -18,6 +18,7 @@ module Expense::Form
     property :currency
     property :paid_at
     property :file_path
+    property :identifier
 
     def currencies
       Expense::Form.currencies

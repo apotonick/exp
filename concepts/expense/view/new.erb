@@ -378,26 +378,35 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <%= Object.new.extend(Formular::Helper).form(model, "/expenses", method: :post) do |f| %>
-                                      <%= f.input :source, placeholder: "Biosk Freiburg", label: "Paid to" %>
-                                      <%= f.input :description, placeholder: "Delicious coffee", label: "Description" %>
-                                      <%= f.row do %>
-                                        <%= f.input :unit_price, placeholder: "12.99", label: "Unit price", inline_col_class: ['col-md-6'] %>
-                                        <%= f.select(:currency, label: 'Public', inline_col_class: ['col-md-6'], collection: model.currencies) %>
+                                <%= Object.new.extend(Formular::Helper).form(model, "/expenses", method: :post) do |f| %>
+                                  <div class="col-lg-6">
+                                    <%= f.row do %>
+                                      <%= f.input_group :identifier, label: "Identifier/Booking no.", placeholder: "P83I5G", inline_col_class: ['col-md-6'] do |input| %>
+                                        <%= input.control %>
+                                        <%= input.group_addon('<input type="checkbox" value="1"/>') %>
                                       <% end %>
-                                      <%= f.hidden :file_path %>
-                                      <%= f.submit content: "Save", class: ["btn-primary", "btn-lg", "btn-block"]  %>
-                                    <% end %>
-                                </div>
-                                <!-- /.col-lg-6 (nested) -->
 
-                                <div class="col-lg-6">
-                                  Upload
-                                  <div id="fileupload"></div>
-                                  <textarea id="pasteZone" cols="33" rows="9"></textarea>
-                                  <span id="fileuploadName"></span>
-                                </div>
+                                      <%= f.input :source, placeholder: "Biosk Freiburg", label: "Paid to", inline_col_class: ['col-md-6'] %>
+                                    <% end %>
+
+                                    <%= f.input :description, placeholder: "Delicious coffee", label: "Description" %>
+
+                                    <%= f.row do %>
+                                      <%= f.input :unit_price, placeholder: "12.99", label: "Unit price", inline_col_class: ['col-md-6'] %>
+                                      <%= f.select(:currency, label: 'Public', inline_col_class: ['col-md-6'], collection: model.currencies) %>
+                                    <% end %>
+
+                                    <%= f.hidden :file_path %>
+                                  </div>
+
+                                  <div class="col-lg-6">
+                                    <div id="fileupload"></div>
+                                    <%= f.textarea :pasteZone, value: "", label: "Receipt", placeholder: "Paste an image or drop any file!", rows: 6 %>
+
+                                    <%= f.submit content: "Save", class: ["btn-primary", "btn-lg", "btn-block"]  %>
+                                  </div>
+                                <!-- /.col-lg-6 (nested) -->
+                              <% end %>
                             </div>
                             <!-- /.row (nested) -->
                         </div>

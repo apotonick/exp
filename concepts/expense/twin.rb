@@ -13,6 +13,7 @@ module Expense::Twin
       property :currency
       property :paid_at
       property :file_path
+      property :identifier # arbitrary ID, like booking number.
     end
 
     unnest :description, from: :content
@@ -22,6 +23,7 @@ module Expense::Twin
     unnest :qty, from: :content
     unnest :paid_at, from: :content
     unnest :file_path, from: :content
+    unnest :identifier, from: :content
 
     # FIXME: only needed for Create/Update
     # This sits here since we want the twin.unit_price = 1.2 everywhere.
