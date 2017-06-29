@@ -22,9 +22,11 @@ module Expense
     end
 
     def move_file(path)
-      new_path = File.join("assets", "__uploads", File.basename(path))
+      # new_path = File.join("assets", "__uploads", File.basename(path))
+      new_path = File.join("__uploads", File.basename(path))
       FileUtils.mv(path, new_path)
       new_path
+      File.basename(new_path)
     end
   end
 end

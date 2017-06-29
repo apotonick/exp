@@ -55,7 +55,12 @@ module Exp
 
     get "/assets/*" do
       env["PATH_INFO"].sub!("/assets", "")
-      settings.environment.call(env)
+      settings.environment.(env)
+    end
+
+    # set :public_folder, "assets/__uploads"
+    get "/files/:path" do
+      send_file File.join("__uploads", params[:path])
     end
   end
 end

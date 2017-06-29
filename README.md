@@ -1,3 +1,9 @@
+## EXPERIMENTAL!
+
+Please note this sample application is under development, and you might find some code that's not finalized, yet.
+
+We will announce the presentable version [on Facebook](http://fb.me/trailblazer.to).
+
 ## Configuration
 
 Tamarama uses the `dotenv` gem for managing environment variables such as database connection strings.
