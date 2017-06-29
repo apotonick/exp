@@ -10,6 +10,8 @@
 
 server "editor.trb.to", :user => "deploy", :roles => %{web app db}
 
+set :application, "exp.trb.to"
+set :repo_url, "git@github.com:konung/exp.git"
 set :branch, "master"
 
 # role-based syntax
