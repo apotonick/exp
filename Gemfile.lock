@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 GIT
   remote: git://github.com/trailblazer/formular.git
   revision: a3fcfad1360642734ecc2e0250e618d91e879133
@@ -8,7 +6,6 @@ GIT
       declarative (~> 0.0.4)
       uber (>= 0.0.11, < 0.2.0)
 
->>>>>>> 8978d03475f3d31a689a2f02c05c99ebb461f6c6
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,9 +59,6 @@ GEM
       dry-types (~> 0.9, >= 0.9.0)
     erbse (0.1.1)
       temple
-    formular (0.2.1)
-      declarative (~> 0.0.4)
-      uber (~> 0.0.11)
     i18n (0.8.4)
     inflecto (0.0.2)
     minitest (5.10.2)
@@ -108,7 +102,7 @@ GEM
       declarative
       pipetree (>= 0.1.1, < 0.2.0)
       uber
-    uber (0.0.15)
+    uber (0.1.0)
 
 PLATFORMS
   ruby
@@ -118,7 +112,7 @@ DEPENDENCIES
   database_cleaner
   dotenv
   dry-validation
-  formular
+  formular!
   minitest
   money
   pg
