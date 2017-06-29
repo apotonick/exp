@@ -11,7 +11,7 @@ gem "trailblazer-cells"
 gem "sequel"
 gem "dry-validation"
 gem "cells-erb"
-gem "formular", path: "../formular"
+gem "formular"#, path: "../formular"
 
 gem "sprockets"
 gem "money"
