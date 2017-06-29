@@ -6,7 +6,7 @@ Sequel.migration do
       column :created_at, DateTime
     end
 
-    add_column :expenses, :claim_id, Integer
+    add_column :expenses, :claim_id, Integer#, null: true
   end
 
   down do

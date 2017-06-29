@@ -51,6 +51,10 @@ module Exp
       Expense::Endpoint.claim( params: params, sinatra: self )
     end
 
+    get "/claims/:id" do
+      Claim::Endpoint.show( params: params, sinatra: self )
+    end
+
     # Get assets going.
     # the appends tell sprockets where files *could* be, no types, nothing.
     set :environment, Sprockets::Environment.new

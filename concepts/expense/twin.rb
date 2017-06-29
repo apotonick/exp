@@ -16,7 +16,7 @@ module Expense::Twin
       property :identifier # arbitrary ID, like booking number.
     end
 
-    property :id # FIXME: only for `row`.
+    property :id, writeable: false # FIXME: only for `row`.
 
     # TODO: `unnest :content` for all
     unnest :description, from: :content

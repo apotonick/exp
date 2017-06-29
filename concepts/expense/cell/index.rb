@@ -3,7 +3,12 @@ module Expense::Cell
     include Cell::Erb
 
     def model
-      Expense::Row.all.reverse.collect { |row| Expense::Twin::Create.new(row) }
+      # Expense::Row.all.reverse.collect { |row| Expense::Twin::Create.new(row) }
+      Expense::Row.where("claim_id IS NULL").
+       # order(:copies_sold).
+       # limit(10).
+       collect { |row| Expense::Twin::Create.new(row) }
+       .reverse
     end
 
     # An actual row presenting an expense/receipt in a table view.

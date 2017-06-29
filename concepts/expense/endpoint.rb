@@ -27,9 +27,16 @@ module Expense::Endpoint
     result = Expense::Claim.( params )
 
     if result.success?
-      sinatra.redirect "/expenses/#{result["model"].id}"
+      sinatra.redirect "/claims/#{result["model"].id}"
     else
       "broken!"
     end
+  end
+end
+
+module Claim::Endpoint
+  def self.show(params:, sinatra:, **)
+
+    Claim::Cell::Show.( Claim::Row[params[:id]] ).()
   end
 end
