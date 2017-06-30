@@ -30,7 +30,7 @@ set :format_options, command_output: true, log_file: "log/capistrano.log", color
 append :linked_files, "config/secrets.yml", ".env.production"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "public", "tmp/pids", "tmp/cache", "tmp/sockets"
+append :linked_dirs, "log", "public", "tmp/pids", "tmp/cache", "tmp/sockets", "uploads"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
