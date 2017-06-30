@@ -9,7 +9,7 @@ module PaymentVoucher
       property :description
       property :amount
       property :qty
-      property :identifier
+      property :invoice_number
       property :created_at
 
       def total

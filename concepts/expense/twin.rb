@@ -13,7 +13,7 @@ module Expense::Twin
       property :currency
       property :paid_at
       property :file_path
-      property :identifier # arbitrary ID, like booking number.
+      property :invoice_number # arbitrary ID, like booking number.
       property :created_at # FIXME, only writeable at Create
     end
 
@@ -27,7 +27,7 @@ module Expense::Twin
     unnest :qty, from: :content
     unnest :paid_at, from: :content
     unnest :file_path, from: :content
-    unnest :identifier, from: :content
+    unnest :invoice_number, from: :content
     unnest :created_at, from: :content
 
     # FIXME: only needed for Create/Update
