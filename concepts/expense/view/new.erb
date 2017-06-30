@@ -381,7 +381,7 @@
                                 <%= Object.new.extend(Formular::Helper).form(model, "/expenses", method: :post) do |f| %>
                                   <div class="col-lg-6">
                                     <%= f.row do %>
-                                      <%= f.input_group :identifier, label: "Identifier/Booking no.", placeholder: "P83I5G", inline_col_class: ['col-md-6'] do |input| %>
+                                      <%= f.input_group :invoice_number, label: "Invoice no.", placeholder: "269504", inline_col_class: ['col-md-6'] do |input| %>
                                         <%= input.control %>
                                         <%= input.group_addon('<input type="checkbox" value="1"/>') %>
                                       <% end %>
@@ -389,7 +389,7 @@
                                       <%= f.input :source, placeholder: "Biosk Freiburg", label: "Paid to", inline_col_class: ['col-md-6'] %>
                                     <% end %>
 
-                                    <%= f.input :description, placeholder: "Delicious coffee", label: "Description" %>
+                                    <%= f.input :description, placeholder: "Delicious whisky", label: "Description" %>
 
                                     <%= f.row do %>
                                       <%= f.input :unit_price, placeholder: "12.99", label: "Unit price", inline_col_class: ['col-md-6'] %>
