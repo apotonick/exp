@@ -4,7 +4,7 @@ module Expense::Cell
 
     def model
       # Expense::Row.all.reverse.collect { |row| Expense::Twin::Create.new(row) }
-      Expense::Row.where("claim_id IS NULL").
+      Expense::Row.where("payment_voucher_id IS NULL").
        # order(:copies_sold).
        # limit(10).
        collect { |row| Expense::Twin::Create.new(row) }

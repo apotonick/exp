@@ -4,7 +4,7 @@ Sequel.migration do
       primary_key :id
       column :role_id, Integer
       column :content, "jsonb"
-      column :claim_id, Integer#, null: true
+      column :payment_voucher_id, Integer
     end
   end
 

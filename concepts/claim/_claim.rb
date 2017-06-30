@@ -1,5 +1,5 @@
 module Claim
-  class Row < Sequel::Model(:claims)
-    one_to_many :expenses, class: "Expense::Row", key: :claim_id
+  class Row < Sequel::Model(:payment_vouchers)
+    one_to_many :expenses, class: "Expense::Row", key: :payment_voucher_id
   end
 end
