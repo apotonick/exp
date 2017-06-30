@@ -4,7 +4,10 @@ module Expense::Form
     end
 
     def find_expense(fragment:, index:, **)
-      self.expenses.insert index, ::Expense::Row[fragment]
+      expense = ::Expense::Row[fragment] || raise("Invalid expense ID: #{fragment.inspect}")
+
+      self.expenses.insert(index, expense)
+
       skip! # FIXME, this is because the form is marked as nested.
     end
   end

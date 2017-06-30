@@ -12,6 +12,12 @@ module Expense
 
     step Nested( Present )
     step Contract::Validate()
+    step Exp::Step::CreatedAt
     step Contract::Persist()
+    step :id!
+
+    def id!(options, model:, **)
+      model.id = model.model.id # FIXME: how could twins do that automatically?
+    end
   end
 end

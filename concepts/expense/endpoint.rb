@@ -37,6 +37,7 @@ end
 module Claim::Endpoint
   def self.show(params:, sinatra:, **)
 
+    return PaymentVoucher::Cell::Voucher.( Claim::Row[params[:id]] ).()
     Claim::Cell::Show.( Claim::Row[params[:id]] ).()
   end
 end
