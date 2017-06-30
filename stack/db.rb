@@ -2,6 +2,8 @@ require "sequel"
 
 Sequel::Model.strict_param_setting = false
 Sequel::Database.extension :pg_json
+Sequel.extension :pg_json_ops
+
 # Sequel::Database.extension :"uuid"
 # Sequel::Model.plugin :timestamps
 

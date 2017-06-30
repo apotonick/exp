@@ -10,6 +10,7 @@ module PaymentVoucher
       property :amount
       property :qty
       property :identifier
+      property :created_at
 
       def total
         model.effective_amount

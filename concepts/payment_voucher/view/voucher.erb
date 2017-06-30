@@ -39,12 +39,12 @@
 	<th>Total</th>
 	<th>Remarks</th>
 
-	<%= cell(PaymentVoucher::Cell::Row, collection: rows) %>
+	<%= cell(PaymentVoucher::Cell::Row, collection: expenses) %>
 
 	<tr>
 		<td></td><td></td><td></td><td></td><td></td><td></td>
-		<td>TOTAL</td>
-		<td></td>
+		<td class=""><strong>TOTAL</strong></td>
+		<td><strong><%= total %></strong></td>
 	</tr>
 </table>
 

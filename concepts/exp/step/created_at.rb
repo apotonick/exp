@@ -3,7 +3,7 @@ module Exp::Step
     extend Uber::Callable
 
     def self.call(options, model:, **)
-      model.created_at = Time.now
+      model.created_at = DateTime.now
     end
   end
 end
