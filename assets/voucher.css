@@ -1,0 +1,15 @@
+#logo {
+  width: 20%;
+}
+
+#address {
+  width: 50%;
+}
+#right {
+  width: 50%;
+  float: left;
+}
+
+#data {
+  text-align: left;
+}

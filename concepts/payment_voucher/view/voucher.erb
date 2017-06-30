@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="/assets/voucher.css">
+</head>
+<body>
+<div id="header">
+	<h1>Payment Voucher</h1>
+
+	<img src="/assets/images/synergy.png" id="logo">
+
+	<div id="address">
+		<strong>Synergy Software Solutions Pte. Ltd.<br></strong>
+	Blk 409A, Fernvale Road, #16-42<br>
+	Singapore 791409<br>
+	Tel: 6692 8014 Fax: 6692 8001
+	</div>
+	<div id="right">
+		Co, Reg. No: 201402303G<br>
+	</div>
+
+	<div id="data">
+		Pay to: Nick Sutterer <br>
+		Date: <%= date %> <br>
+		PV No: <%= pv %>
+	</div>
+
+</div>
+
+<table>
+	<th>S. No.</th>
+	<th>Description</th>
+	<th>Invoice No.</th>
+	<th>Project No.</th>
+	<th>Unit Price</th>
+	<th>QTY</th>
+	<th>Amt w GST</th>
+	<th>Total</th>
+	<th>Remarks</th>
+
+	<%= cell(PaymentVoucher::Cell::Row, collection: rows) %>
+
+	<tr>
+		<td></td><td></td><td></td><td></td><td></td><td></td>
+		<td>TOTAL</td>
+		<td></td>
+	</tr>
+</table>
+
+</body>
+</html>

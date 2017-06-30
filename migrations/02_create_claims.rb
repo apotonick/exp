@@ -4,13 +4,11 @@ Sequel.migration do
       primary_key :id
       column :content, "jsonb"
       column :created_at, DateTime
+      column :transaction_id, Integer#, null: true
     end
-
-    add_column :expenses, :claim_id, Integer#, null: true
   end
 
   down do
     drop_table(:claims)
-    drop_column :expenses, :claim_id
   end
 end

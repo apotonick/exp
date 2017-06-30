@@ -3,7 +3,7 @@ module Expense
     step Model( ::Claim::Row, :new )
     step Contract::Build( constant: Form::Claim )
     step Contract::Validate()
-    step :created_at!
+    step Exp::Step::CreatedAt
     step Contract::Persist()
     step :add_expenses!
 
@@ -16,10 +16,6 @@ module Expense
     #   model.expenses
     #   model.save
     # end
-
-    def created_at!(options, model:, **)
-      model.created_at = Time.now
-    end
   end
 end
 
