@@ -1,7 +1,7 @@
 lock "3.8.2"
 
 set :application, "exp"
-set :repo_url, "git@github.com:konung/exp.git"
+set :repo_url, "git@github.com:apotonick/exp.git"
 set :branch, "master"
 set :deploy_to, "/var/www/exp"
 set :rack_env, :production
