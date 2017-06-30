@@ -1,3 +1,4 @@
+require 'bundler'
 environment = ENV['RACK_ENV'] ||= 'development'
 
 require 'dotenv'
