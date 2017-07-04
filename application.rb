@@ -87,7 +87,7 @@ module Exp
 
     # set :public_folder, "assets/__uploads"
     get "/files/:path" do
-      send_file File.join("__uploads", params[:path])
+      send_file File.join("uploads", params[:path])
     end
   end
 end
