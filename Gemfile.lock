@@ -97,7 +97,7 @@ GEM
       trailblazer-operation (>= 0.0.12, < 0.1.0)
     trailblazer-cells (0.0.3)
       cells (>= 4.1.0.rc1, < 5.0.0)
-    trailblazer-loader (0.1.1)
+    trailblazer-loader (0.1.2)
     trailblazer-operation (0.0.13)
       declarative
       pipetree (>= 0.1.1, < 0.2.0)
@@ -124,7 +124,7 @@ DEPENDENCIES
   sprockets
   trailblazer
   trailblazer-cells
-  trailblazer-loader
+  trailblazer-loader (>= 0.1.2)
 
 BUNDLED WITH
    1.15.1

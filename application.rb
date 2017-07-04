@@ -29,7 +29,20 @@ end
 
 require_relative "concepts/exp/step/created_at" # FIXME.
 
-Trailblazer::Loader.new.(debug: false, concepts_root: "./concepts/") { |file|
+# FIXME: this will be introduced in loader-1.0.
+# TODO: allow particular orders, e.g. expense, claim
+SortConceptsAlphabetically = ->(input, *) { input.sort }
+
+Trailblazer::Loader.new.
+instance_exec do
+  def default_circuit
+    super.tap do |pipe|
+      pipe.insert(pipe.index(Trailblazer::Loader::SortByLevel), SortConceptsAlphabetically)
+    end
+  end
+  self
+end.
+(debug: false, concepts_root: "./concepts/") { |file|
   puts file
   require_relative(file) }
 

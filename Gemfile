@@ -6,7 +6,7 @@ gem 'sinatra'
 gem 'pg'
 gem "reform"#, path: "../reform"
 gem "trailblazer"
-gem "trailblazer-loader"
+gem "trailblazer-loader", ">= 0.1.2" #path: "../trailblazer-loader"
 gem "trailblazer-cells"
 gem "sequel"
 gem "dry-validation"
