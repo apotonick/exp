@@ -16,9 +16,9 @@ module Expense::Form
     property :unit_price
     property :qty, default: 1
     property :currency
-    property :paid_at
     property :file_path
     property :invoice_number
+    property :invoice_date
 
     def currencies
       Expense::Form.currencies

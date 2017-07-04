@@ -386,10 +386,14 @@
                                         <%= input.group_addon('<input type="checkbox" value="1"/>') %>
                                       <% end %>
 
-                                      <%= f.input :source, placeholder: "Biosk Freiburg", label: "Paid to", inline_col_class: ['col-md-6'] %>
+                                      <%= f.input :invoice_date, placeholder: "24/12/2017", label: "Invoice date", inline_col_class: ['col-md-6'] %>
                                     <% end %>
 
-                                    <%= f.input :description, placeholder: "Delicious whisky", label: "Description" %>
+                                    <%= f.row do %>
+                                      <%= f.input :source, placeholder: "Biosk Freiburg", label: "Paid to", inline_col_class: ['col-md-4'] %>
+                                      <%= f.input :description, placeholder: "Delicious whisky", label: "Description", inline_col_class: ['col-md-8'] %>
+                                    <% end %>
+
 
                                     <%= f.row do %>
                                       <%= f.input :unit_price, placeholder: "12.99", label: "Unit price", inline_col_class: ['col-md-6'] %>

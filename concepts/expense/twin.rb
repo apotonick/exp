@@ -11,9 +11,9 @@ module Expense::Twin
       property :unit_price, type: Types::Form::Float
       property :qty, default: 1
       property :currency
-      property :paid_at
       property :file_path
       property :invoice_number # arbitrary ID, like booking number.
+      property :invoice_date, type: Types::Form::DateTime
       property :created_at # FIXME, only writeable at Create
     end
 
@@ -25,9 +25,9 @@ module Expense::Twin
     unnest :unit_price, from: :content
     unnest :currency, from: :content
     unnest :qty, from: :content
-    unnest :paid_at, from: :content
     unnest :file_path, from: :content
     unnest :invoice_number, from: :content
+    unnest :invoice_date,   from: :content
     unnest :created_at, from: :content
 
     # FIXME: only needed for Create/Update
