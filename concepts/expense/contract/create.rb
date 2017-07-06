@@ -20,6 +20,14 @@ module Expense::Form
     property :invoice_number
     property :invoice_date
 
+    validation do
+      required(:source).filled
+      required(:unit_price).filled
+      required(:currency).value(included_in?: Expense::Form.currencies.collect { |cfg| cfg.first })
+      required(:invoice_number).filled
+      # required(:invoice_date).maybe(format?: "\d\d/\d\d/\d\d\d\d")
+    end
+
     def currencies
       Expense::Form.currencies
     end
