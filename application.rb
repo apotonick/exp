@@ -1,3 +1,5 @@
+Encoding.default_external = 'UTF-8' # FIXME: needed for deployed app.
+
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require "stack/env"
