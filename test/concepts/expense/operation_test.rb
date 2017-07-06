@@ -41,14 +41,8 @@ class ExpenseOperationTest < Minitest::Spec
     result.failure?.must_equal true
 
     result["contract.default"].errors.messages.keys.must_equal [:unit_price, :currency, :invoice_number]
-    # puts result.inspect
 
-    # result["model"].must_expose( params_valid,
-    #   unit_price:   120,
-    #   description:  "Biosk / Beer",
-    #   invoice_date: nil,
-    #   amount:       %{EUR €1,20} # twin test
-    # )
+    result["model"].model.id.must_be_nil
   end
 end
 
