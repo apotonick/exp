@@ -44,6 +44,18 @@ class ExpenseOperationTest < Minitest::Spec
 
     result["model"].model.id.must_be_nil
   end
+
+  describe "Update" do
+    it "updates attributes" do
+      result = Expense::Create.( params_valid )
+
+      result = Expense::Update.( params_valid.merge( i__d: result["model"].id, unit_price: "333.31" ) )
+
+      result.success?.must_equal true
+
+      result["model"].must_expose( params_valid, unit_price: 333.31 )
+    end
+  end
 end
 
 module MiniTest::Assertions

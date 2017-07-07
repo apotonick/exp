@@ -22,6 +22,7 @@ I18n.config.available_locales = :en
 Money.add_rate("EUR", "SGD", 1.55) # Not a fan of this API.
 Money.add_rate("AUD", "SGD", 1.06) # Not a fan of this API.
 Money.add_rate("TWD", "SGD", 0.045) # Not a fan of this API.
+Money.add_rate("USD", "SGD", 1.38) # Not a fan of this API.
 
 Reform::Form.class_eval do
   include Reform::Form::Dry
