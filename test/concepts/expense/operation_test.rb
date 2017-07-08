@@ -1,5 +1,23 @@
 require "test_helper"
 
+
+module Trailblazer::Operation::Test
+  module Assertions
+    def assert_passes(operation_class, params, expected_attributes)
+      default_params = params_valid
+      default_attributes = attributes_valid # FIXME.
+
+      result = operation_class.( default_params.merge(params) )
+
+      result.success?.must_equal true
+
+      result["model"].must_expose( default_params,
+        default_attributes.merge(expected_attributes)
+      )
+    end
+  end
+end
+
 class ExpenseOperationTest < Minitest::Spec
   let(:params_valid) do
     { source: "Biosk", description: "Beer", unit_price: "1.2", currency: "EUR",
@@ -52,15 +70,6 @@ class ExpenseOperationTest < Minitest::Spec
     it { assert_passes Expense::Create, { unit_price: "2,999.95" }, { unit_price: 299995.0 } }
     # it { assert_fails  Expense::Create, { unit_price: "2,999.95" }, { unit_price: ["wrong"] } }
   end
-  it "parses Eu prices" do
-    result = Expense::Create.( params_valid.merge(unit_price: "29,95") ) # TODO: run(Op, params_valid, nil: [:invoice_date])
-
-    result.success?.must_equal true
-
-    result["model"].must_expose( params_valid,
-      attributes_valid.merge(unit_price: 2995.0)
-    )
-  end
 
   # matcher params: params_valid, attributes: attributes_valid, model_path: "model", success: true
 
@@ -88,7 +97,11 @@ class ExpenseOperationTest < Minitest::Spec
       ) )
     end
   end
+
+  include Trailblazer::Operation::Test::Assertions
 end
+
+
 
 module MiniTest::Assertions
   def assert_result_matches(result, defaults, overrides)
