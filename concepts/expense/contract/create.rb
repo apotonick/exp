@@ -38,7 +38,14 @@ module Expense::Form
 
     # The coercer sits on the contract as this is a pure UI-targeted feature. The underlying data twin
     # always expects a proper value.
+
+    # coercion/deserialization should only happen when v.not_nil?
+    # property :unit_price
+    #   it must always call the setter since we want it to be nilable, the coercer should be called from the deserializer or at least have the same semantics.
+# is default also a coercion/deserialization? value=(nil=>"default value")
     def unit_price=(v)
+      return super(v) if v.nil? # DISCUSS: where should this happen?, the nilify
+
       # TODO: use digits parser gem here.
       formatted = if v =~ /,\d{1,2}$/    # 1,23 or 1.004,56
         v.sub(".", "").sub(",", ".")
