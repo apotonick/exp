@@ -8,16 +8,24 @@ class ExpenseOperationTest < Minitest::Spec
     }
   end
 
+  # attributes on the resulting twin, possibly overriding incoming param values.
+  let(:attributes_valid) do
+    {
+      description: "Biosk / Beer",
+      unit_price: 120,
+      invoice_date: Date.parse("24/12/2017"),
+    }
+  end
+
   it "is successful" do
     result = Expense::Create.( params_valid )
 
     result.success?.must_equal true
 
     result["model"].must_expose( params_valid,
-      unit_price:   120,
-      description:  "Biosk / Beer",
-      invoice_date: Date.parse("24/12/2017"),
-      amount:       %{EUR €1,20} # twin test
+      params_valid.merge(attributes_valid).merge({
+        amount:       %{EUR €1,20}
+      }) # twin test
     )
   end
 
@@ -27,10 +35,7 @@ class ExpenseOperationTest < Minitest::Spec
     result.success?.must_equal true
 
     result["model"].must_expose( params_valid,
-      unit_price:   120,
-      description:  "Biosk / Beer",
-      invoice_date: nil,
-      amount:       %{EUR €1,20} # twin test
+      params_valid.merge(attributes_valid).merge(invoice_date: nil)
     )
   end
 
@@ -49,11 +54,13 @@ class ExpenseOperationTest < Minitest::Spec
     it "updates attributes" do
       result = Expense::Create.( params_valid )
 
-      result = Expense::Update.( params_valid.merge( i__d: result["model"].id, unit_price: "333.31" ) )
+      result = Expense::Update.( params_valid.merge( id: result["model"].id, unit_price: "333.31" ) )
 
       result.success?.must_equal true
 
-      result["model"].must_expose( params_valid, unit_price: 333.31 )
+      result["model"].must_expose( params_valid, params_valid.merge(attributes_valid).merge(
+        unit_price: 33331.0
+      ) )
     end
   end
 end
@@ -63,7 +70,7 @@ module MiniTest::Assertions
     tuples = defaults.merge(overrides)
 
     tuples.each do |k, v|
-      assert( result[k] == v, %{Expected result["#{k}"] to == `#{v}`} )
+      assert( result[k] == v, %{Expected result["#{k.inspect}"] to == `#{v.inspect}`} )
     end
   end
 
@@ -72,7 +79,7 @@ module MiniTest::Assertions
 
     tuples.each do |k, v|
       actual = result.send(k)
-      assert( actual == v, %{Expected result["#{k}"](#{actual}) to == `#{v}`} )
+      assert( actual == v, %{Expected actual result["#{k}"] `#{actual.inspect}` == `#{v.inspect}`} )
     end
   end
 end

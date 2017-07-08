@@ -2,7 +2,7 @@ module Expense
   class Update < Trailblazer::Operation
 
     class Present < Create::Present
-      step Model( Row, :find )
+      step Model( Row, :[] ), override: true
       # step :decorate!
       # step Contract::Build( constant: Form::Create )
 
