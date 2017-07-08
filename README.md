@@ -31,8 +31,11 @@ RACK_ENV=test rake db:debug
 
 ## TODO
 
+* reading twin (e.g. for form presentation) shouldn't coerce!
+
 * unique invoice number (or warning)
 * unique description (e.g. booking number, with warning!)
   trim invoice number
 * unit_price: remove ,
 * date: any format
+* unique file upload name ( rename to invoice/id or something)

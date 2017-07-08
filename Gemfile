@@ -5,7 +5,7 @@ gem "rake"
 gem 'sinatra'
 gem 'pg'
 gem "reform"#, path: "../reform"
-gem "trailblazer"
+gem "trailblazer", path: "../trailblazer"
 gem "trailblazer-loader", ">= 0.1.2" #path: "../trailblazer-loader"
 gem "trailblazer-cells"
 gem "sequel"
@@ -24,4 +24,5 @@ group :development, :test do
   gem 'database_cleaner'
 
   gem "minitest"
+  gem "minitest-line"
 end

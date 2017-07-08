@@ -22,7 +22,7 @@ module Expense::Form
 
     validation do
       required(:source).filled
-      required(:unit_price).filled
+      required(:unit_price).filled#(format?: /^([\d+\.{1},.]||[\d+,{1}\..]||\d+)$/)
       required(:currency).value(included_in?: Expense::Form.currencies.collect { |cfg| cfg.first })
       required(:invoice_number).filled
       # required(:invoice_date).maybe(format?: "\d\d/\d\d/\d\d\d\d")
@@ -34,6 +34,20 @@ module Expense::Form
 
     def currency
       super || "EUR"
+    end
+
+    # The coercer sits on the contract as this is a pure UI-targeted feature. The underlying data twin
+    # always expects a proper value.
+    def unit_price=(v)
+      # TODO: use digits parser gem here.
+      formatted = if v =~ /,\d{1,2}$/    # 1,23 or 1.004,56
+        v.sub(".", "").sub(",", ".")
+      # elsif v =~ /\.\d{1,2}/ # 1.23 or 1,004.56
+      else
+        v.sub(",", "")
+      end
+
+      super(formatted)
     end
   end
 end

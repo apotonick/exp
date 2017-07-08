@@ -23,7 +23,7 @@ class ExpenseOperationTest < Minitest::Spec
     result.success?.must_equal true
 
     result["model"].must_expose( params_valid,
-      params_valid.merge(attributes_valid).merge({
+      attributes_valid.merge({
         amount:       %{EUR €1,20}
       }) # twin test
     )
@@ -35,9 +35,34 @@ class ExpenseOperationTest < Minitest::Spec
     result.success?.must_equal true
 
     result["model"].must_expose( params_valid,
-      params_valid.merge(attributes_valid).merge(invoice_date: nil)
+      attributes_valid.merge(invoice_date: nil)
     )
   end
+
+  describe "price trimming" do
+    it { assert_passes Expense::Create, { unit_price: "  22.1 " }, { unit_price: 2210 } }
+  end
+
+  describe "EU/US price formatting" do
+    it { assert_passes Expense::Create, { unit_price: "29" }, { unit_price: 2900 } }
+    it { assert_passes Expense::Create, { unit_price: ".29" }, { unit_price: 29 } }
+    it { assert_passes Expense::Create, { unit_price: "29,95" }, { unit_price: 2995.0 } }
+    it { assert_passes Expense::Create, { unit_price: "29.95" }, { unit_price: 2995.0 } }
+    it { assert_passes Expense::Create, { unit_price: "2.999,95" }, { unit_price: 299995.0 } }
+    it { assert_passes Expense::Create, { unit_price: "2,999.95" }, { unit_price: 299995.0 } }
+    # it { assert_fails  Expense::Create, { unit_price: "2,999.95" }, { unit_price: ["wrong"] } }
+  end
+  it "parses Eu prices" do
+    result = Expense::Create.( params_valid.merge(unit_price: "29,95") ) # TODO: run(Op, params_valid, nil: [:invoice_date])
+
+    result.success?.must_equal true
+
+    result["model"].must_expose( params_valid,
+      attributes_valid.merge(unit_price: 2995.0)
+    )
+  end
+
+  # matcher params: params_valid, attributes: attributes_valid, model_path: "model", success: true
 
   # TODO: date format validation, since we can assume it's a Date after coercion ("typing").
   it "fails with missing invoice number, price, currency, " do
@@ -58,7 +83,7 @@ class ExpenseOperationTest < Minitest::Spec
 
       result.success?.must_equal true
 
-      result["model"].must_expose( params_valid, params_valid.merge(attributes_valid).merge(
+      result["model"].must_expose( params_valid, attributes_valid.merge(
         unit_price: 33331.0
       ) )
     end
