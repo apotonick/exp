@@ -71,6 +71,15 @@ class ExpenseOperationTest < Minitest::Spec
     # it { assert_fails  Expense::Create, { unit_price: "2,999.95" }, { unit_price: ["wrong"] } }
   end
 
+  describe "date formats and shortcuts" do
+    it { assert_passes Expense::Create, { invoice_date: "24/12/2012" }, { invoice_date: Date.parse("24.12.2012") } }
+    it { assert_passes Expense::Create, { invoice_date: "24.12.2012" }, { invoice_date: Date.parse("24.12.2012") } }
+    it { assert_passes Expense::Create, { invoice_date: "24/12/12" }, { invoice_date: Date.parse("24.12.2012") } }
+    it { assert_passes Expense::Create, { invoice_date: "24/12" }, { invoice_date: Date.parse("24.12.2017") } }
+    it { assert_passes Expense::Create, { invoice_date: "24/2" }, { invoice_date: Date.parse("24.02.2017") } }
+    it { assert_passes Expense::Create, { invoice_date: nil }, { invoice_date: nil } }
+  end
+
   # matcher params: params_valid, attributes: attributes_valid, model_path: "model", success: true
 
   # TODO: date format validation, since we can assume it's a Date after coercion ("typing").

@@ -53,6 +53,25 @@ module Expense::Form
       else
         v.sub(",", "")
       end
+      # how to we still present the original value in the re-renderd form
+      # if we aren't happy with the format, how could we prevent further validation for this and still add an error?
+
+      super(formatted)
+    end
+
+    def invoice_date=(v)
+      return super(v) if v.nil? # DISCUSS: where should this happen?, the nilify
+
+      now_year = Time.now.strftime("%Y")
+
+      # allow dates like 24/12 or 24/12/17 because it's super handy.
+      formatted = if match = v.match(/\d{1,2}[^\d]+\d{1,2}[^\d]+(\d{2})$/)
+        v.sub(/#{match[1]}$/, "20#{match[1]}") # assuming this app won't be run in 21xx.
+      elsif v.match(/\d{1,2}[^\d]+\d{1,2}$/)
+        "#{v}/#{now_year}"
+      else
+        v
+      end
 
       super(formatted)
     end
