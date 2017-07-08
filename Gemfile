@@ -5,7 +5,8 @@ gem "rake"
 gem 'sinatra'
 gem 'pg'
 gem "reform"#, path: "../reform"
-gem "trailblazer", path: "../trailblazer"
+gem "trailblazer", ">= 2.0.7", "< 2.1.0"
+# gem "trailblazer", path: "../trailblazer"
 gem "trailblazer-loader", ">= 0.1.2" #path: "../trailblazer-loader"
 gem "trailblazer-cells"
 gem "sequel"

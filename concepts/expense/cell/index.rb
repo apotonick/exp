@@ -17,6 +17,7 @@ module Expense::Cell
 
       property :file_path
       property :invoice_number
+      property :invoice_date
 
       def receipt_link
         return unless has_receipt?
@@ -27,6 +28,12 @@ module Expense::Cell
 
       def has_receipt?
         file_path
+      end
+
+      # TODO: test all cases, nil, empty string, etc
+      def invoice_date
+        return if super.nil? || super == ""
+        super.strftime("%d/%b/%y")
       end
     end
   end

@@ -47,16 +47,6 @@ class ExpenseOperationTest < Minitest::Spec
     )
   end
 
-  it "works without invoice_date" do
-    result = Expense::Create.( params_valid.merge(invoice_date: nil) ) # TODO: run(Op, params_valid, nil: [:invoice_date])
-
-    result.success?.must_equal true
-
-    result["model"].must_expose( params_valid,
-      attributes_valid.merge(invoice_date: nil)
-    )
-  end
-
   describe "price trimming" do
     it { assert_passes Expense::Create, { unit_price: "  22.1 " }, { unit_price: 2210 } }
   end
