@@ -396,8 +396,9 @@
 
 
                                     <%= f.row do %>
-                                      <%= f.input :unit_price, placeholder: "12.99", label: "Unit price", inline_col_class: ['col-md-6'] %>
-                                      <%= f.select(:currency, label: 'Public', inline_col_class: ['col-md-6'], collection: model.currencies) %>
+                                      <%= f.input :unit_price, placeholder: "12.99", label: "Unit price", inline_col_class: ['col-md-4'] %>
+                                      <%= f.select(:currency, label: 'Currency', inline_col_class: ['col-md-4'], collection: model.currencies) %>
+                                      <%= f.input :notes, placeholder: "Book with Nico!", label: "Notes", inline_col_class: ['col-md-4'] %>
                                     <% end %>
 
                                     <%= f.hidden :file_path %>

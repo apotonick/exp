@@ -67,6 +67,10 @@ module Exp
       Expense::Endpoint.create( params: params, sinatra: self )
     end
 
+    post "/expenses/upload" do
+      Expense::Endpoint.upload( params: params, sinatra: self )
+    end
+
     get "/expenses/edit/:id" do
       Expense::Endpoint.edit( params: params, sinatra: self )
     end
@@ -74,9 +78,6 @@ module Exp
       Expense::Endpoint.update( params: params, sinatra: self )
     end
 
-    post "/expenses/upload" do
-      Expense::Endpoint.upload( params: params, sinatra: self )
-    end
 
     post "/claims" do
       Expense::Endpoint.claim( params: params, sinatra: self )

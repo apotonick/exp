@@ -20,6 +20,7 @@ module Expense::Form
     property :file_path
     property :invoice_number
     property :invoice_date
+    property :notes
 
     validation do
       required(:source).filled

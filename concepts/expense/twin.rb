@@ -46,6 +46,7 @@ module Expense::Twin
       property :file_path
       property :invoice_number # arbitrary ID, like booking number.
       property :invoice_date, type: Types::Form::DateTime
+      property :notes
       property :created_at # FIXME, only writeable at Create
       property :updated_at # FIXME, only writeable at Update
     end
@@ -61,6 +62,7 @@ module Expense::Twin
     unnest :file_path, from: :content
     unnest :invoice_number, from: :content
     unnest :invoice_date,   from: :content
+    unnest :notes,   from: :content
     unnest :created_at, from: :content
     unnest :updated_at, from: :content
 

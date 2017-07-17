@@ -35,6 +35,7 @@ class ExpenseOperationTest < Minitest::Spec
     { source: "Biosk", description: "Beer", unit_price: "1.2", currency: "EUR",
       invoice_number: "1234567890",
       invoice_date:   "24/12/2017",
+      notes: "Good stuff!"
     }
   end
 
@@ -111,6 +112,16 @@ class ExpenseOperationTest < Minitest::Spec
     end
 
     # TODO: don't override/nil-out receipt
+    describe "empty file_path" do
+      # currently, this will simply override the old path
+      it { assert_passes Expense::Update, { id: expense.id, file_path: "/something/completely/different" }, file_path: "/something/completely/different" }
+    end
+
+    # TODO: test overwriting notes, etc.
+    describe "overwrite notes" do
+      # DISCUSS: can we automate such tests, somehow?
+      it { assert_passes Expense::Update, { id: expense.id, notes: "Great!" }, notes: "Great!" }
+    end
   end
 
   include Trailblazer::Operation::Test::Assertions
