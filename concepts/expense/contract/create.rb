@@ -106,6 +106,7 @@ module Expense::Form
     #   then, don't update that value if it hasn't changed. that means the setter that converts hasn't been run
     def invoice_date
       return if super.nil? || super == ""
+      return super unless super.is_a?(DateTime)
       super.strftime("%d/%b/%y")
     end
   end
