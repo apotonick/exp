@@ -77,6 +77,7 @@ module Expense::Form
     def unit_price
       # this still doesn't "restore" 1.299,95 but shows 1299.95, which could confuse the user
       return if super.nil?
+      return super unless super.is_a?(Integer) # FIXME: this is for faulty input after validation and must not be here!!!!! e.g. unit_price: 2341234234asfdsadf
       super / 100
     end
 
