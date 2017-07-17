@@ -15,6 +15,25 @@ module Expense::Endpoint
       Expense::Cell::New.( result["contract.default"] ).(  )
     end
   end
+  # generic HTML edit behavior:
+  def self.edit(params:, sinatra:, **)
+    result = Expense::Update::Present.( params )
+
+    if result.success?
+      Expense::Cell::Edit.( result["contract.default"] ).(  )
+    else # TODO: AUTH? model not found? etc.
+      sinatra.status 404
+    end
+  end
+  def self.update(params:, sinatra:, **) # this will be extracted to Endpoint, don't ya worry!
+    result = Expense::Update.( params )
+
+    if result.success?
+      sinatra.redirect "/expenses/new"
+    else
+      Expense::Cell::Edit.( result["contract.default"] ).(  )
+    end
+  end
 
   def self.upload(params:, sinatra:, **)
     result = Expense::Upload.( params )

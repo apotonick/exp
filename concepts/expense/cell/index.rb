@@ -31,9 +31,18 @@ module Expense::Cell
       end
 
       # TODO: test all cases, nil, empty string, etc
+      # FIXME: we always want nil or a Date here, for Christ's sake!
       def invoice_date
         return if super.nil? || super == ""
         super.strftime("%d/%b/%y")
+      end
+
+      def header_link
+        %{<a href="/expenses/edit/#{model.id}">#{description}</a>}
+      end
+
+      def description
+        [ model.source, model.description ].compact.join(" / ")
       end
     end
   end

@@ -3,13 +3,25 @@ require "test_helper"
 
 module Trailblazer::Operation::Test
   module Assertions
-    def assert_passes(operation_class, params, expected_attributes)
+    def assert_passes(operation_class, params, expected_attributes, &block)
       default_params = params_valid
       default_attributes = attributes_valid # FIXME.
 
       result = operation_class.( default_params.merge(params) )
 
+      assert_result_passes(result, expected_attributes, &block)
+    end
+
+    def assert_result_passes(result, expected_attributes={}, &block) # TODO: test expected_attributes default param and explicit!
+      default_params = params_valid
+      default_attributes = attributes_valid # FIXME.
+
+
+
+
       result.success?.must_equal true
+
+      return yield result if block_given?  # DISCUSS: result or model?
 
       result["model"].must_expose( default_params,
         default_attributes.merge(expected_attributes)
@@ -29,22 +41,14 @@ class ExpenseOperationTest < Minitest::Spec
   # attributes on the resulting twin, possibly overriding incoming param values.
   let(:attributes_valid) do
     {
-      description: "Biosk / Beer",
+      description: "Beer",
       unit_price: 120,
       invoice_date: Date.parse("24/12/2017"),
     }
   end
 
   it "is successful" do
-    result = Expense::Create.( params_valid )
-
-    result.success?.must_equal true
-
-    result["model"].must_expose( params_valid,
-      attributes_valid.merge({
-        amount:       %{EUR €1,20}
-      }) # twin test
-    )
+    assert_passes Expense::Create, {}, { amount:       %{EUR €1,20} }
   end
 
   describe "price trimming" do
@@ -70,6 +74,16 @@ class ExpenseOperationTest < Minitest::Spec
     it { assert_passes Expense::Create, { invoice_date: nil }, { invoice_date: nil } }
   end
 
+  describe "with receipt upload" do
+    it { assert_passes Expense::Create, { file_path: "" }, file_path: "" }
+    it { assert_passes Expense::Create, { file_path: "/uploads/bild.png" }, file_path: "/uploads/bild.png" }
+  end
+
+  describe "created_at, updated_at" do
+    # this tests both updated_at and created at
+    it { assert_passes(Expense::Create, {}, updated_at: nil) { |result| assert result["model"].created_at > DateTime.now-1 } }
+  end
+
   # matcher params: params_valid, attributes: attributes_valid, model_path: "model", success: true
 
   # TODO: date format validation, since we can assume it's a Date after coercion ("typing").
@@ -84,17 +98,18 @@ class ExpenseOperationTest < Minitest::Spec
   end
 
   describe "Update" do
-    it "updates attributes" do
-      result = Expense::Create.( params_valid )
+    let(:expense) { Expense::Create.( params_valid )["model"] }
 
-      result = Expense::Update.( params_valid.merge( id: result["model"].id, unit_price: "333.31" ) )
+    it { assert_passes Expense::Update, { id: expense.id, unit_price: "333.31" }, { unit_price: 33331.0, id: expense.id } }
+    it { assert_passes Expense::Update, { id: expense.id, invoice_date: "31.3.17" }, { invoice_date: Date.parse("31.03.2017"), id: expense.id } }
 
-      result.success?.must_equal true
-
-      result["model"].must_expose( params_valid, attributes_valid.merge(
-        unit_price: 33331.0
-      ) )
+    # TODO: test created_at
+    describe "created_at, updated_at" do
+      # this tests both updated_at and created at
+      it { assert_passes(Expense::Update, { id: expense.id }, created_at: expense.created_at) do |result| assert result["model"].updated_at > expense.created_at end }
     end
+
+    # TODO: don't override/nil-out receipt
   end
 
   include Trailblazer::Operation::Test::Assertions

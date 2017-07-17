@@ -11,9 +11,10 @@ module Expense::Form
   # Note how the form doesn't know anything about the nested hash fields, etc.
   # It simply relies on a flat property list, which is provided by the twin.
   class Create < Reform::Form
+    # include Reform::Form::Coercion
     property :source # e.g. "Starbucks Taiwan"
     property :description
-    property :unit_price
+    property :unit_price#, type: Types::Form::Float
     property :qty, default: 1
     property :currency
     property :file_path
@@ -44,7 +45,15 @@ module Expense::Form
     #   it must always call the setter since we want it to be nilable, the coercer should be called from the deserializer or at least have the same semantics.
 # is default also a coercion/deserialization? value=(nil=>"default value")
     def unit_price=(v)
+      # @original_input ||= {}
+      # @original_input[:unit_price] = v
+
+      #- nilify, should happen in representer
+      v = nil if v == ""
+      #- if nil?
       return super(v) if v.nil? # DISCUSS: where should this happen?, the nilify
+
+      #- pre-validation: convert from 3,600.60 to 3600.60
 
       # TODO: use digits parser gem here.
       formatted = if v =~ /,\d{1,2}$/    # 1,23 or 1.004,56
@@ -56,7 +65,18 @@ module Expense::Form
       # how to we still present the original value in the re-renderd form
       # if we aren't happy with the format, how could we prevent further validation for this and still add an error?
 
-      super(formatted)
+      #- type coercion
+      float = Types::Form::Float.(formatted) # this used to happen via `type: Types::Form::Float`.
+
+      #- computation to target value
+      super(float * 100)
+    end
+
+    # we need a submitted form and a edit form!
+    def unit_price
+      # this still doesn't "restore" 1.299,95 but shows 1299.95, which could confuse the user
+      return if super.nil?
+      super / 100
     end
 
     def invoice_date=(v)
@@ -73,7 +93,18 @@ module Expense::Form
         v
       end
 
-      super(formatted)
+      date = Types::Form::DateTime.(formatted)
+
+      super(date)#.tap do |date|
+      #   puts "@@@@@ #{date.inspect}"
+      # end
+    end
+
+        # the problem is: present the date as something completely different to what's on the model.
+    #   then, don't update that value if it hasn't changed. that means the setter that converts hasn't been run
+    def invoice_date
+      return if super.nil? || super == ""
+      super.strftime("%d/%b/%y")
     end
   end
 end
