@@ -12,7 +12,7 @@ module Expense
 
     step Nested( Present )
     step Contract::Validate()
-    step Exp::Step::CreatedAt
+    step Exp::Step::CreatedAt, name: "timestamp.created_at" # note that this is *not* a macro but simply a callable.
     step Contract::Persist()
     step :id!
 

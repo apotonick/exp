@@ -13,7 +13,7 @@ module Expense
 
     step Nested( Present )
     step Contract::Validate()
-    # step Exp::Step::CreatedAt
+    step Exp::Step::UpdatedAt
     step Contract::Persist()
     # step :id!
 

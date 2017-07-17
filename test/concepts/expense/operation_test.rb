@@ -82,6 +82,9 @@ class ExpenseOperationTest < Minitest::Spec
   describe "created_at, updated_at" do
     # this tests both updated_at and created at
     it { assert_passes(Expense::Create, {}, updated_at: nil) { |result| assert result["model"].created_at > DateTime.now-1 } }
+
+    # every timestamp's unique.
+    it { Expense::Create.(params_valid)["model"].created_at < Expense::Create.(params_valid)["model"].created_at }
   end
 
   # matcher params: params_valid, attributes: attributes_valid, model_path: "model", success: true
@@ -103,9 +106,7 @@ class ExpenseOperationTest < Minitest::Spec
     it { assert_passes Expense::Update, { id: expense.id, unit_price: "333.31" }, { unit_price: 33331.0, id: expense.id } }
     it { assert_passes Expense::Update, { id: expense.id, invoice_date: "31.3.17" }, { invoice_date: Date.parse("31.03.2017"), id: expense.id } }
 
-    # TODO: test created_at
     describe "created_at, updated_at" do
-      # this tests both updated_at and created at
       it { assert_passes(Expense::Update, { id: expense.id }, created_at: expense.created_at) do |result| assert result["model"].updated_at > expense.created_at end }
     end
 
