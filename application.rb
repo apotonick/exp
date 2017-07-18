@@ -5,6 +5,8 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require "stack/env"
 require "stack/db"
 
+Sequel.extension(:connection_validator)
+
 DB.connect
 
 require "trailblazer/operation"
