@@ -5,12 +5,12 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require "stack/env"
 require "stack/db"
 
-Sequel::Database.extension(:connection_validator)
+
+db = DB.connect
+
 # via a middleware: https://gist.github.com/jacaetevha/3801154
-
-DB.connect
-
-DB.pool.connection_validation_timeout = -1 # apparently, this is very slow and shouldn't be really done.
+db.extension(:connection_validator)
+db.pool.connection_validation_timeout = -1 # apparently, this is very slow and shouldn't be really done.
 
 require "trailblazer/operation"
 # require "reform/form/active_model/validations"

@@ -13,6 +13,7 @@ Sequel.extension :pg_json_ops
 
 
 module DB
+  # @returns DB handle
   def self.connect
     environment       = ENV["RACK_ENV"]
     connection_string = ENV["DATABASE_URL"]
