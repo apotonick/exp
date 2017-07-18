@@ -5,8 +5,8 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require "stack/env"
 require "stack/db"
 
-Sequel.extension(:connection_validator)
-Sequel.pool.connection_validation_timeout = -1 # apparently, this is very slow and shouldn't be really done.
+Sequel::Database.extension(:connection_validator)
+Sequel::Database.pool.connection_validation_timeout = -1 # apparently, this is very slow and shouldn't be really done.
 # via a middleware: https://gist.github.com/jacaetevha/3801154
 
 DB.connect
