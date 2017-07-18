@@ -6,6 +6,7 @@ require "stack/env"
 require "stack/db"
 
 Sequel.extension(:connection_validator)
+# via a middleware: https://gist.github.com/jacaetevha/3801154
 
 DB.connect
 
@@ -27,6 +28,7 @@ Money.add_rate("TWD", "SGD", 0.045) # Not a fan of this API.
 Money.add_rate("USD", "SGD", 1.38) # Not a fan of this API.
 Money.add_rate("GBP", "SGD", 1.78) # Not a fan of this API.
 Money.add_rate("RON", "SGD", 0.34) # Not a fan of this API.
+Money.add_rate("HKD", "SGD", 0.18) # Not a fan of this API.
 
 Reform::Form.class_eval do
   include Reform::Form::Dry
