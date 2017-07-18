@@ -6,7 +6,7 @@ require "stack/env"
 require "stack/db"
 
 Sequel.extension(:connection_validator)
-DB.pool.connection_validation_timeout = -1 # apparently, this is very slow and shouldn't be really done.
+Sequel.pool.connection_validation_timeout = -1 # apparently, this is very slow and shouldn't be really done.
 # via a middleware: https://gist.github.com/jacaetevha/3801154
 
 DB.connect
