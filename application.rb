@@ -6,8 +6,7 @@ require "tamarama/env"
 require "tamarama/db/sequel"
 require "tamarama/db/sequel/database_validator"
 
-db = DB.connect
-
+db = Tamarama::DB::Sequel.()
 Tamarama::DB::Sequel::DatabaseValidator.(db)
 
 
