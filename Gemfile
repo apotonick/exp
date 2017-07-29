@@ -2,7 +2,8 @@ source 'https://rubygems.org'
 
 # gem 'puma'
 gem "rake"
-gem "tamarama", path: "../tamarama"
+# gem "tamarama", path: "../tamarama"
+gem "tamarama", ">= 0.1.0", "< 0.2.0"
 gem 'sinatra'
 gem 'pg'
 gem "reform"#, path: "../reform"
