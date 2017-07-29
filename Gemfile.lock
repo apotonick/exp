@@ -6,6 +6,11 @@ GIT
       declarative (~> 0.0.4)
       uber (>= 0.0.11, < 0.2.0)
 
+PATH
+  remote: ../tamarama
+  specs:
+    tamarama (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -125,6 +130,7 @@ DEPENDENCIES
   sequel
   sinatra
   sprockets
+  tamarama!
   trailblazer (>= 2.0.7, < 2.1.0)
   trailblazer-cells
   trailblazer-loader (>= 0.1.2)

@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 # gem 'puma'
 gem "rake"
+gem "tamarama", path: "../tamarama"
 gem 'sinatra'
 gem 'pg'
 gem "reform"#, path: "../reform"
