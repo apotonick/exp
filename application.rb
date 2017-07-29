@@ -4,13 +4,12 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require "tamarama/env"
 require "tamarama/db/sequel"
-
+require "tamarama/db/sequel/database_validator"
 
 db = DB.connect
 
-# via a middleware: https://gist.github.com/jacaetevha/3801154
-db.extension(:connection_validator)
-db.pool.connection_validation_timeout = -1 # apparently, this is very slow and shouldn't be really done.
+Tamarama::DB::Sequel::DatabaseValidator.(db)
+
 
 require "trailblazer/operation"
 # require "reform/form/active_model/validations"
