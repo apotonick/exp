@@ -4,3 +4,6 @@ require 'rack/test'
 
 require_relative "../application"
 
+
+require "trailblazer/test/assertions"
+require "trailblazer/test/operation/assertions"

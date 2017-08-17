@@ -1,7 +1,7 @@
 require "test_helper"
 
 
-module Trailblazer::Operation::Test
+module Trailblazer::Test::Operation
   module Assertions
     def assert_passes(operation_class, params, expected_attributes, &block)
       default_params = params_valid
@@ -13,19 +13,11 @@ module Trailblazer::Operation::Test
     end
 
     def assert_result_passes(result, expected_attributes={}, &block) # TODO: test expected_attributes default param and explicit!
-      default_params = params_valid
-      default_attributes = attributes_valid # FIXME.
-
-
-
-
-      result.success?.must_equal true
+      assert_equal true, result.success?
 
       return yield result if block_given?  # DISCUSS: result or model?
 
-      result["model"].must_expose( default_params,
-        default_attributes.merge(expected_attributes)
-      )
+      assert_exposes( result["model"], expected_attributes )
     end
   end
 end
@@ -100,6 +92,9 @@ class ExpenseOperationTest < Minitest::Spec
 
     result["model"].model.id.must_be_nil
   end
+  it do
+    # Expense::Create.( { unit_price: "29a" }, { unit_price: 2900 } })
+  end
 
   describe "Update" do
     let(:expense) { Expense::Create.( params_valid )["model"] }
@@ -124,28 +119,9 @@ class ExpenseOperationTest < Minitest::Spec
     end
   end
 
-  include Trailblazer::Operation::Test::Assertions
+  include Trailblazer::Test::Assertions
+
+
+
+  include Trailblazer::Test::Operation::Assertions
 end
-
-
-
-module MiniTest::Assertions
-  def assert_result_matches(result, defaults, overrides)
-    tuples = defaults.merge(overrides)
-
-    tuples.each do |k, v|
-      assert( result[k] == v, %{Expected result["#{k.inspect}"] to == `#{v.inspect}`} )
-    end
-  end
-
-  def assert_exposes(result, defaults, overrides)
-    tuples = defaults.merge(overrides) # FIXME: merge with above!
-
-    tuples.each do |k, v|
-      actual = result.send(k)
-      assert( actual == v, %{Expected actual result["#{k}"] `#{actual.inspect}` == `#{v.inspect}`} )
-    end
-  end
-end
-Trailblazer::Operation::Result.infect_an_assertion :assert_result_matches, :must_match, :do_not_flip
-Object.infect_an_assertion :assert_exposes, :must_expose, :do_not_flip

@@ -91,6 +91,7 @@ module Exp
       Claim::Endpoint.show( params: params, sinatra: self )
     end
 
+    # FIXME: security?
     get "/debug/:id" do
       CGI::escape_html Expense::Row[ params[:id] ].inspect
     end

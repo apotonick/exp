@@ -28,4 +28,6 @@ group :development, :test do
 
   gem "minitest"
   gem "minitest-line"
+
+  gem "trailblazer-test", path: "../trailblazer-test"
 end

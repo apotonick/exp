@@ -6,6 +6,11 @@ GIT
       declarative (~> 0.0.4)
       uber (>= 0.0.11, < 0.2.0)
 
+PATH
+  remote: ../trailblazer-test
+  specs:
+    trailblazer-test (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -130,6 +135,7 @@ DEPENDENCIES
   trailblazer (>= 2.0.7, < 2.1.0)
   trailblazer-cells
   trailblazer-loader (>= 0.1.2)
+  trailblazer-test!
 
 BUNDLED WITH
    1.15.1
