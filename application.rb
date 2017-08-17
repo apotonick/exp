@@ -91,6 +91,10 @@ module Exp
       Claim::Endpoint.show( params: params, sinatra: self )
     end
 
+    get "/debug/:id" do
+      CGI::escape_html Expense::Row[ params[:id] ].inspect
+    end
+
     # Get assets going.
     # the appends tell sprockets where files *could* be, no types, nothing.
     set :environment, Sprockets::Environment.new
