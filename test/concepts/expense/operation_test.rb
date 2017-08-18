@@ -1,6 +1,9 @@
 require "test_helper"
 
 class ExpenseOperationTest < Minitest::Spec
+  include Trailblazer::Test::Assertions
+  include Trailblazer::Test::Operation::Assertions
+
   let(:params_pass) do
     { source: "Biosk", description: "Beer", unit_price: "1.2", currency: "EUR",
       invoice_number: "1234567890",
@@ -55,7 +58,7 @@ class ExpenseOperationTest < Minitest::Spec
     it { assert_pass(Expense::Create, {}, updated_at: nil) { |result| assert result["model"].created_at > DateTime.now-1 } }
 
     # every timestamp's unique.
-    it { Expense::Create.(params_pass)["model"].created_at < Expense::Create.(params_pass)["model"].created_at }
+    it { assert_pass Expense::Create, {}, created_at: ->(actual:, **) { actual < Expense::Create.(params_pass)["model"].created_at } }
   end
 
   # matcher params: params_pass, attributes: attributes_valid, model_path: "model", success: true
@@ -96,10 +99,4 @@ class ExpenseOperationTest < Minitest::Spec
       it { assert_pass Expense::Update, { id: expense.id, notes: "Great!" }, notes: "Great!" }
     end
   end
-
-  include Trailblazer::Test::Assertions
-
-
-
-  include Trailblazer::Test::Operation::Assertions
 end
