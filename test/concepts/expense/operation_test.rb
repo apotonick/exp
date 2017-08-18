@@ -65,16 +65,13 @@ class ExpenseOperationTest < Minitest::Spec
 
   # TODO: date format validation, since we can assume it's a Date after coercion ("typing").
   it "fails with missing invoice number, price, currency, " do
-    result = Expense::Create.( params_pass.merge(invoice_number: nil, currency: nil, unit_price: nil, ) )
-
-    result.failure?.must_equal true
-
-    result["contract.default"].errors.messages.keys.must_equal [:unit_price, :currency, :invoice_number]
+    result = assert_fail Expense::Create, { invoice_number: nil, currency: nil, unit_price: nil }, [:unit_price, :currency, :invoice_number]
 
     result["model"].model.id.must_be_nil
   end
-  it do
-    # Expense::Create.( { unit_price: "29a" }, { unit_price: 2900 } })
+
+  describe "invalid input" do
+    it { assert_fail Expense::Create, { unit_price: "29a" }, [:unit_price] }
   end
 
   describe "Update" do
