@@ -93,7 +93,11 @@ module Exp
 
     # FIXME: security?
     get "/debug/:id" do
+      row=Expense::Row[ 94 ]
+      row.unit_price = 1700.0
+      row.save
       CGI::escape_html Expense::Row[ params[:id] ].inspect
+
     end
 
     # Get assets going.
