@@ -93,9 +93,7 @@ module Exp
 
     # FIXME: security?
     get "/debug/:id" do
-      twin=Expense::Form::Update.new( Expense::Row[ 94 ] )
-      twin.validate(unit_price: "17")
-      twin.save
+      Expense::Update.( id: 94, unit_price: "17" )
       CGI::escape_html Expense::Row[ params[:id] ].inspect
 
     end
