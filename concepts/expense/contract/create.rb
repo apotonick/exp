@@ -24,7 +24,7 @@ module Expense::Form
 
     validation do
       required(:source).filled
-      required(:unit_price).filled#(format?: /^([\d+\.{1},.]||[\d+,{1}\..]||\d+)$/)
+      required(:unit_price) { float? } #(format?: /^([\d+\.{1},.]||[\d+,{1}\..]||\d+)$/)
       required(:currency).value(included_in?: Expense::Form.currencies.collect { |cfg| cfg.first })
       required(:invoice_number).filled
       # required(:invoice_date).maybe(format?: "\d\d/\d\d/\d\d\d\d")
@@ -68,6 +68,8 @@ module Expense::Form
 
       #- type coercion
       float = Types::Form::Float.(formatted) # this used to happen via `type: Types::Form::Float`.
+
+      #- test if it's decimal/dots, only?
 
       #- computation to target value
       super(float * 100)
