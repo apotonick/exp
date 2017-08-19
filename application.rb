@@ -93,9 +93,9 @@ module Exp
 
     # FIXME: security?
     get "/debug/:id" do
-      row=Expense::Row[ 94 ]
-      row[:unit_price] = 1700.0
-      row.save
+      twin=Expense::Twin::Domain.new( Expense::Row[ 94 ] )
+      twin.unit_price = 1700.0
+      twin.save
       CGI::escape_html Expense::Row[ params[:id] ].inspect
 
     end
