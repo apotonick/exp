@@ -1,6 +1,7 @@
 <%= Object.new.extend(Formular::Helper).form(nil, "/claims", method: :post) do |f| %>
 
   <%= model.size %>
+  (<%= model.collect { |twin| twin.effective_money }.sum %> SGD, kill me for this horrible code)
   <table class="table">
     <thead>
       <tr>
