@@ -30,7 +30,7 @@ Money.add_rate("GBP", "SGD", 1.78) # Not a fan of this API.
 Money.add_rate("RON", "SGD", 0.34) # Not a fan of this API.
 Money.add_rate("HKD", "SGD", 0.18) # Not a fan of this API.
 Money.add_rate("RUB", "SGD", 0.028) # Not a fan of this API.
-Money.add_rate("IDS", "SGD", 0.00016) # Not a fan of this API.
+Money.add_rate("IDR", "SGD", 0.00016) # Not a fan of this API.
 
 Reform::Form.class_eval do
   include Reform::Form::Dry
