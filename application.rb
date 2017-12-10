@@ -67,22 +67,25 @@ Formular::Helper.builder(:bootstrap3)
 module Exp
   class Application < Sinatra::Base
     get "/expenses/new" do
-      Expense::Endpoint::New.( params: params )
+      ::Endpoint::HTML.(Expense::Create::Present, params, Expense::Cell::New, :new)
     end
 
     post "/expenses" do
-      Expense::Endpoint.create( params: params, sinatra: self )
+      ::Endpoint::HTML.(Expense::Create, params, Expense::Cell::New, :create) { |result| return redirect("/expenses/new") }
     end
 
     post "/expenses/upload" do
-      Expense::Endpoint.upload( params: params, sinatra: self )
+      ::Endpoint::HTML.( Expense::Upload, params, nil, nil ) do |result|
+        # TODO: use representer, etc.
+        JSON.dump( { files: [{ path: result["files"][0].path }] } )
+      end
     end
 
     get "/expenses/edit/:id" do
-      Expense::Endpoint.edit( params: params, sinatra: self )
+      ::Endpoint::HTML.(Expense::Update::Present, params, Expense::Cell::Edit, :edit)
     end
     post "/expenses/:id" do
-      Expense::Endpoint.update( params: params, sinatra: self )
+      ::Endpoint::HTML.(Expense::Update, params, Expense::Cell::Edit, :update) { |result| return redirect("/expenses/new") }
     end
 
 

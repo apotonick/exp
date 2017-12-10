@@ -1,46 +1,36 @@
-module Expense::Endpoint
-  class New
-    def self.call(params:, **)
-      result = Expense::Create::Present.()
-      Expense::Cell::New.( result["contract.default"] ).(  )
+require "trailblazer/endpoint"
+
+module Endpoint
+  module HTML
+    def self.call(operation, options, cell, hint, &block)
+      result = operation.( options ) # this should happen in the endpoint gem.
+
+      if result.success? && block_given? # first pattern
+        yield_block(result, &block)
+      elsif result.success? && hint == :new # next matcher
+        render(cell, result)
+      elsif result.success? && hint == :edit # next matcher
+        render(cell, result)
+      elsif result.failure? && hint == :create # next matcher
+        render(cell, result) # same resolve
+      elsif result.failure? && hint == :update # next matcher
+        render(cell, result) # same resolve
+      end
+    end
+
+    # @resolve action
+    def self.yield_block(result, &block)
+      yield(result)
+    end
+    # @resolve action
+    def self.render(cell, result)
+      cell.( result["contract.default"], layout: Bootstrap::Cell::Layout ).()
     end
   end
+end
 
-  def self.create(params:, sinatra:, **)
-    result = Expense::Create.( params )
-
-    if result.success?
-      sinatra.redirect "/expenses/new"
-    else
-      Expense::Cell::New.( result["contract.default"] ).(  )
-    end
-  end
-  # generic HTML edit behavior:
-  def self.edit(params:, sinatra:, **)
-    result = Expense::Update::Present.( params )
-
-    if result.success?
-      Expense::Cell::Edit.( result["contract.default"] ).(  )
-    else # TODO: AUTH? model not found? etc.
-      sinatra.status 404
-    end
-  end
-  def self.update(params:, sinatra:, **) # this will be extracted to Endpoint, don't ya worry!
-    result = Expense::Update.( params )
-
-    if result.success?
-      sinatra.redirect "/expenses/new"
-    else
-      Expense::Cell::Edit.( result["contract.default"] ).(  )
-    end
-  end
-
-  def self.upload(params:, sinatra:, **)
-    result = Expense::Upload.( params )
-
-    # TODO: use representer, etc.
-    JSON.dump( { files: [{ path: result["files"][0].path }] } )
-  end
+module Expense
+  module Endpoint
 
   def self.claim(params:, sinatra:, **)
     result = Expense::Claim.( params )
@@ -51,6 +41,7 @@ module Expense::Endpoint
       "broken!"
     end
   end
+end
 end
 
 module Claim::Endpoint
