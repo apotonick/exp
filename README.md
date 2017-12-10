@@ -15,6 +15,12 @@ For you, this boils down to providing `.env.development` and `.env.test` files i
 DATABASE_URL="postgres://user:password@localhost/myblog_test"
 ```
 
+## Development
+
+```
+rerun -- rackup -p 9999
+```
+
 ## Migrations
 
 ```
