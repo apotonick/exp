@@ -1,4 +1,4 @@
-require "trailblazer/endpoint"
+# require "trailblazer/endpoint"
 
 module Endpoint
   module HTML

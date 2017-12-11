@@ -18,6 +18,8 @@ gem "formular", github: "trailblazer/formular"
 gem "sprockets"
 gem "money"
 
+# gem "trailblazer-endpoint", path: "../endpoint"
+
 # Because of how env is loaded - this needs to be in all env
 gem "dotenv"
 
@@ -31,3 +33,8 @@ group :development, :test do
 
   # gem "trailblazer-test", path: "../trailblazer-test"
 end
+
+gem "capistrano", "3.8.2"
+gem "capistrano-rbenv"
+gem "capistrano-bundler"
+gem "capistrano-passenger"
