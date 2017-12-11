@@ -11,7 +11,7 @@ gem "trailblazer", ">= 2.0.7", "< 2.1.0"
 # gem "trailblazer", path: "../trailblazer"
 gem "trailblazer-loader", ">= 0.1.2" #path: "../trailblazer-loader"
 gem "trailblazer-cells"
-gem "sequel"
+gem "sequel", "4.48.0" # TODO: upgrade.
 gem "dry-validation"
 gem "cells-erb"
 gem "formular", github: "trailblazer/formular"

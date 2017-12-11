@@ -101,7 +101,7 @@ GEM
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
       uber (< 0.2.0)
-    sequel (5.3.0)
+    sequel (4.48.0)
     sinatra (2.0.0)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -149,7 +149,7 @@ DEPENDENCIES
   rack-test
   rake
   reform
-  sequel
+  sequel (= 4.48.0)
   sinatra
   sprockets
   tamarama (>= 0.1.0, < 0.2.0)
