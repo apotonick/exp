@@ -55,6 +55,8 @@ module Expense::Twin
       property :txn_account
     end
 
+    property :folder_id
+
     property :id, writeable: false # FIXME: only for `row`. # fixme: gives evil constraint error when not readonly.
 
     # TODO: `unnest :content` for all

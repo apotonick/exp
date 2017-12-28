@@ -99,6 +99,11 @@ class ExpenseOperationTest < Minitest::Spec
     end
   end
 
+  describe "folder_id" do
+    it { assert_pass Expense::Create, { folder_id: 1 },    { folder_id: 1 } }
+    it { assert_fail Expense::Create, { folder_id: "hallo" }, [:folder_id] }
+  end
+
   describe "Update" do
     let(:expense) { Expense::Create.( params_pass )["model"] }
 
