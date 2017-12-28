@@ -24,6 +24,7 @@ module Expense::Form
 
     property :txn_direction, parse: false # oh man, this API sucks.
     property :txn_type
+    property :txn_account
 
     validation do
       required(:source).filled
@@ -34,6 +35,7 @@ module Expense::Form
 
       # required(:txn_direction).value( included_in?: %w(incoming outgoing) )
       required(:txn_type).value( included_in?: %w(sale expense purchase receipt) )
+      required(:txn_account).value( included_in?: %w(bank paypal stripe) ) # DISCUSS: configurable?
     end
 
     def currencies

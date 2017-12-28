@@ -12,6 +12,7 @@ class ExpenseOperationTest < Minitest::Spec
 
       txn_direction: "outgoing",
       txn_type:      "expense",
+      txn_account:   "bank",
     }
   end
 
@@ -24,6 +25,7 @@ class ExpenseOperationTest < Minitest::Spec
 
       txn_direction: "outgoing",
       txn_type:      "expense",
+      txn_account:   "bank",
     }
   end
 
@@ -80,14 +82,16 @@ class ExpenseOperationTest < Minitest::Spec
     it { assert_fail Expense::Create, { unit_price: "29a" }, [:unit_price] }
   end
 
-  describe "txn_direction and txn_type" do
+  describe "txn_account, txn_direction and txn_type" do
     # accept variables
-    it { assert_pass( Expense::Create, { txn_type: "purchase" }, { txn_direction: "outgoing", txn_type: "purchase" } ) }
-    it { assert_pass( Expense::Create, { txn_type: "sale" },     { txn_direction: "incoming", txn_type: "sale" } ) }
-    it { assert_pass( Expense::Create, { txn_type: "expense" },  { txn_direction: "outgoing", txn_type: "expense" } ) }
+    it { assert_pass( Expense::Create, { txn_type: "purchase", txn_account: "bank" }, { txn_direction: "outgoing", txn_type: "purchase", txn_account: "bank" } ) }
+    it { assert_pass( Expense::Create, { txn_type: "sale",     txn_account: "bank" }, { txn_direction: "incoming", txn_type: "sale", txn_account: "bank" } ) }
+    it { assert_pass( Expense::Create, { txn_type: "expense",  txn_account: "bank" }, { txn_direction: "outgoing", txn_type: "expense", txn_account: "bank" } ) }
+    it { assert_pass( Expense::Create, { txn_type: "expense",  txn_account: "paypal" }, { txn_direction: "outgoing", txn_type: "expense", txn_account: "paypal" } ) }
+    it { assert_pass( Expense::Create, { txn_type: "sale",     txn_account: "stripe" }, { txn_direction: "incoming", txn_type: "sale", txn_account: "stripe" } ) }
 
     it "fails with invalid type" do
-      assert_fail Expense::Create, { txn_direction: "undef", txn_type: "random" }, [:txn_type]
+      assert_fail Expense::Create, { txn_direction: "undef", txn_type: "random", txn_account: "unknown" }, [:txn_type, :txn_account]
     end
 
     it "doesn't allow overriding txn_direction manually" do

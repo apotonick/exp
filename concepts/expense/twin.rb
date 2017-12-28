@@ -52,6 +52,7 @@ module Expense::Twin
 
       property :txn_direction
       property :txn_type
+      property :txn_account
     end
 
     property :id, writeable: false # FIXME: only for `row`. # fixme: gives evil constraint error when not readonly.
@@ -71,6 +72,7 @@ module Expense::Twin
 
     unnest :txn_direction, from: :content
     unnest :txn_type, from: :content
+    unnest :txn_account, from: :content
 
     # FIXME: only needed for Index/Show
     def effective_amount
