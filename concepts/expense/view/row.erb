@@ -6,6 +6,12 @@
   <td><%= invoice_date %></td>
   <td><%= model.notes %></td>
   <td>
+    [<%= model.folder_id %>]
+    <%= model.txn_direction %>,
+    <%= model.txn_account %>,
+    <%= model.txn_type %>
+  </td>
+  <td>
     <% if has_receipt? %>
       <input type="checkbox" name="expenses[]" value="<%= model.id %>" class="claim_btn" data-on-text="Claim!" data-off-text="🔓" data-on-color="warning" unchecked>
     <% end %>

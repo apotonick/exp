@@ -17,6 +17,16 @@
                     <%= Object.new.extend(Formular::Helper).form(model, post_url, method: :post) do |f| %>
                       <div class="col-lg-6">
                         <%= f.row do %>
+                          <%= f.inline_radio :txn_type, label: "Txn type", inline_col_class: ['col-md-6'], collection: [ ["Sale","sale"],["Purchase","purchase"],["Expense","expense"] ] %>
+
+                          <%= f.inline_radio :txn_account, label: "Account", inline_col_class: ['col-md-6'], collection: [ ["Bank", "bank"],["PP", "paypal"] ] %>
+                        <% end %>
+
+                        <%= f.row do %>
+                          <%= f.input :folder_id, label: "Company ID", inline_col_class: ['col-md-12'], placeholder: "1" %>
+                        <% end %>
+
+                        <%= f.row do %>
                           <%= f.input :source, placeholder: "Biosk Freiburg", label: "Paid to", inline_col_class: ['col-md-6'] %>
 
                           <%= f.input :invoice_date, placeholder: "24/12/2017", label: "Invoice date", inline_col_class: ['col-md-6'] %>

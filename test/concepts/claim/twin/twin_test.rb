@@ -2,10 +2,10 @@ require "test_helper"
 
 class ClaimTwinTest < Minitest::Spec
   it do
-    expense_1 = Expense::Create.( unit_price: 10, currency: "AUD", identifier: "001" )["model"]
-    expense_2 = Expense::Create.( unit_price: 11, currency: "EUR", identifier: "002" )["model"]
+    expense_1 = Expense::Create.( unit_price: 10, currency: "AUD", identifier: "001" )[:model]
+    expense_2 = Expense::Create.( unit_price: 11, currency: "EUR", identifier: "002" )[:model]
 
-    claim     = Expense::Claim.( expenses: [ expense_1.id, expense_2.id ] )["model"]
+    claim     = Expense::Claim.( expenses: [ expense_1.id, expense_2.id ] )[:model]
 
     # this twin goes into Cell::Voucher.
     twin      = Claim::Twin.new(claim)
