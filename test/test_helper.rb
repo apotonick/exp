@@ -7,3 +7,6 @@ require_relative "../application"
 
 require "trailblazer/test/assertions"
 require "trailblazer/test/operation/assertions"
+
+require "trailblazer/deprecation/call"
+require "trailblazer/deprecation/context"

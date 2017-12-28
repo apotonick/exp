@@ -34,6 +34,12 @@ RACK_ENV=test rake db:migrate[0]
 RACK_ENV=test rake db:debug
 ```
 
+## Backup
+
+```ruby
+pg_dump -U trbinc exp_production -U trbinc -W -h 127.0.0.1  >> BACKUP/__db.sql
+```
+
 
 ## TODO
 
