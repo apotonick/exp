@@ -7,8 +7,8 @@ module Expense::Cell
       Expense::Row.where("payment_voucher_id IS NULL").
        # order(:copies_sold).
        # limit(10).
-       collect { |row| Expense::Twin::Create.new(row) }
-       .reverse
+       collect { |row| Expense::Twin::Create.new(row) }.sort { |a,b| a.invoice_date <=> b.invoice_date } # TODO: use JSONB query. can anyone help?
+       # .reverse
     end
 
     # An actual row presenting an expense/receipt in a table view.

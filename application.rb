@@ -102,7 +102,6 @@ module Exp
     get "/debug/:id" do
       Expense::Update.( id: 94, unit_price: "17" )
       CGI::escape_html Expense::Row[ params[:id] ].inspect
-
     end
 
     # Get assets going.
