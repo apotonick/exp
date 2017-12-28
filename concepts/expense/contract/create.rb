@@ -22,12 +22,18 @@ module Expense::Form
     property :invoice_date
     property :notes
 
+    property :txn_direction, parse: false # oh man, this API sucks.
+    property :txn_type
+
     validation do
       required(:source).filled
       required(:unit_price) { float? } #(format?: /^([\d+\.{1},.]||[\d+,{1}\..]||\d+)$/)
       required(:currency).value(included_in?: Expense::Form.currencies.collect { |cfg| cfg.first })
       required(:invoice_number).filled
       # required(:invoice_date).maybe(format?: "\d\d/\d\d/\d\d\d\d")
+
+      # required(:txn_direction).value( included_in?: %w(incoming outgoing) )
+      required(:txn_type).value( included_in?: %w(sale expense purchase receipt) )
     end
 
     def currencies

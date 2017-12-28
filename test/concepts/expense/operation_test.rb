@@ -8,7 +8,10 @@ class ExpenseOperationTest < Minitest::Spec
     { source: "Biosk", description: "Beer", unit_price: "1.2", currency: "EUR",
       invoice_number: "1234567890",
       invoice_date:   "24/12/2017",
-      notes: "Good stuff!"
+      notes: "Good stuff!",
+
+      txn_direction: "outgoing",
+      txn_type:      "expense",
     }
   end
 
@@ -18,6 +21,9 @@ class ExpenseOperationTest < Minitest::Spec
       description: "Beer",
       unit_price: 120,
       invoice_date: Date.parse("24/12/2017"),
+
+      txn_direction: "outgoing",
+      txn_type:      "expense",
     }
   end
 
@@ -72,6 +78,21 @@ class ExpenseOperationTest < Minitest::Spec
 
   describe "invalid input" do
     it { assert_fail Expense::Create, { unit_price: "29a" }, [:unit_price] }
+  end
+
+  describe "txn_direction and txn_type" do
+    # accept variables
+    it { assert_pass( Expense::Create, { txn_type: "purchase" }, { txn_direction: "outgoing", txn_type: "purchase" } ) }
+    it { assert_pass( Expense::Create, { txn_type: "sale" },     { txn_direction: "incoming", txn_type: "sale" } ) }
+    it { assert_pass( Expense::Create, { txn_type: "expense" },  { txn_direction: "outgoing", txn_type: "expense" } ) }
+
+    it "fails with invalid type" do
+      assert_fail Expense::Create, { txn_direction: "undef", txn_type: "random" }, [:txn_type]
+    end
+
+    it "doesn't allow overriding txn_direction manually" do
+      assert_pass Expense::Create, { txn_direction: "incoming", txn_type: "expense" }, { txn_direction: "outgoing", txn_type: "expense" }
+    end
   end
 
   describe "Update" do

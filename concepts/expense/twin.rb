@@ -49,6 +49,9 @@ module Expense::Twin
       property :notes
       property :created_at # FIXME, only writeable at Create
       property :updated_at # FIXME, only writeable at Update
+
+      property :txn_direction
+      property :txn_type
     end
 
     property :id, writeable: false # FIXME: only for `row`. # fixme: gives evil constraint error when not readonly.
@@ -65,6 +68,9 @@ module Expense::Twin
     unnest :notes,   from: :content
     unnest :created_at, from: :content
     unnest :updated_at, from: :content
+
+    unnest :txn_direction, from: :content
+    unnest :txn_type, from: :content
 
     # FIXME: only needed for Index/Show
     def effective_amount
