@@ -33,7 +33,7 @@ module Expense
   module Endpoint
 
   def self.claim(params:, sinatra:, **)
-    result = Expense::Claim.( params )
+    result = Expense::Claim.( params: params )
 
     if result.success?
       sinatra.redirect "/claims/#{result[:model].id}"

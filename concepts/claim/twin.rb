@@ -8,7 +8,15 @@ module Claim
     include Sync
     include Save
 
+    def initialize(*)
+      super
 
+      assign_indices
+    end
+
+    def assign_indices # TODO: RENDER ONLY
+      expenses.each_with_index { |expense, i| expense.index = "%03d" % (i+1).to_s }
+    end
 
 
     property   :created_at

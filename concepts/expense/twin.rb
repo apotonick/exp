@@ -56,6 +56,7 @@ module Expense::Twin
     end
 
     property :folder_id
+    property :index, virtual: true # FIXME: only in rendering!
 
     property :id, writeable: false # FIXME: only for `row`. # fixme: gives evil constraint error when not readonly.
 

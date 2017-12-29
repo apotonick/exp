@@ -1,8 +1,6 @@
 require "test_helper"
 
 class ExpenseOperationTest < Minitest::Spec
-  include Trailblazer::Test::Assertions
-  include Trailblazer::Test::Operation::Assertions
 
   let(:options_pass) do
     {
