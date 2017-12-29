@@ -1,6 +1,15 @@
 module Expense
   # Create a payment_voucher file.
   class Claim < Trailblazer::Operation
+    def self.twin( ctx, model:, ** )
+      ctx[:file] = ::Claim::Twin.new(model)
+    end
+
+    def self.save_zip( ctx, file:, zip:, ** )
+      file.archive_path = zip
+      file.save
+    end
+
     step Model( ::Claim::Row, :new )
     step Contract::Build( constant: Form::Claim )
     step Contract::Validate()
@@ -9,19 +18,15 @@ module Expense
     step :serial_number!
     step :add_expenses!
     require_relative "pack"
-    step :twin # DISCUSS: why again?
+    step method(:twin) # DISCUSS: why again?
     step Nested( ::Claim::Pack )
-    step :save_zip
+    step method(:save_zip)
 
     def add_expenses!(options, model:, **)
       options["contract.default"].expenses.each do |exp|
         model.add_expense exp.model
       end
     end
-    # step ->(options, model:, **) do
-    #   model.expenses
-    #   model.save
-    # end
 
     def serial_number!(options, model:, **)
       # content_snapshot = Sequel.pg_jsonb_op(:content)
@@ -43,13 +48,11 @@ module Expense
       twin.save
     end
 
-    def twin( ctx, model:, ** )
-      ctx[:file] = ::Claim::Twin.new(model)
-    end
-
-    def save_zip( ctx, file:, zip:, ** )
-      file.archive_path = zip
-      file.save
+    class Rezip < Trailblazer::Operation
+      step Model( ::Claim::Row, :[] )
+      step Claim.method(:twin)
+      step Nested( ::Claim::Pack )
+      step Claim.method(:save_zip)
     end
   end
 end

@@ -59,13 +59,39 @@ class ClaimTwinTest < Minitest::Spec
     it "creates .zip" do
       twin.archive_path.must_equal "#{archive_dir}/PV17-N-00#{twin.serial_number}-TT.zip"
 
-      zip_files = []
-
-      Zip::File.open(twin.archive_path) do |zip_file|
-        zip_file.each { |entry| zip_files << [entry.to_s, entry.size] }
-      end
-
-      zip_files.must_equal [["001-trb.png", 26916], ["002-epic.jpg", 221545]]
+      zip_files_for(twin.archive_path).must_equal [["001-trb.png", 26916], ["002-epic.jpg", 221545]]
     end
+
+    describe "Expense::Claim::Rezip" do
+      it "only generates the .zip file for legacy claims" do
+        twin.archive_path.must_equal "#{archive_dir}/PV17-N-00#{twin.serial_number}-TT.zip"
+
+  pp twin.archive_path
+        File.delete(twin.archive_path) # simulate a legacy claim without a ZIP.
+
+        result = Expense::Claim::Rezip.( params: { id: twin.id }, archive_dir: archive_dir, upload_dir: upload_dir )
+
+        result.success?.must_equal true
+
+
+        file = result[:file]
+
+        zip_files_for(file.archive_path).must_equal [["001-trb.png", 26916], ["002-epic.jpg", 221545]]
+
+        twin.archive_path.must_equal "#{archive_dir}/PV17-N-00#{twin.serial_number}-TT.zip"
+      end
+    end
+
+
+  end
+
+  def zip_files_for(path)
+    zip_files = []
+
+    Zip::File.open(path) do |zip_file|
+      zip_file.each { |entry| zip_files << [entry.to_s, entry.size] }
+    end
+
+    zip_files
   end
 end
