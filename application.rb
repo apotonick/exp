@@ -98,6 +98,10 @@ module Exp
       Claim::Endpoint.show( params: params, sinatra: self )
     end
 
+    get "/claims/:id/rezip" do
+      Claim::Endpoint.rezip( params: params, sinatra: self )
+    end
+
     # FIXME: security?
     get "/debug/:id" do
       Expense::Update.( id: 94, unit_price: "17" )

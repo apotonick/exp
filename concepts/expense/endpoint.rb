@@ -50,4 +50,12 @@ module Claim::Endpoint
     return PaymentVoucher::Cell::Voucher.( Claim::Row[params[:id]] ).()
     Claim::Cell::Show.( Claim::Row[params[:id]] ).()
   end
+
+  def self.rezip(params:, sinatra:, **)
+    result = Expense::Claim::Rezip.( params: params, archive_dir: "./downloads", upload_dir: "./uploads" )
+
+    result.inspect
+
+    # Claim::Cell::Show.( Claim::Row[params[:id]] ).()
+  end
 end
