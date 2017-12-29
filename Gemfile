@@ -23,6 +23,8 @@ gem "money"
 # Because of how env is loaded - this needs to be in all env
 gem "dotenv"
 
+gem "rubyzip"
+
 group :development, :test do
   gem "rack-test"
   # gem "match_json"

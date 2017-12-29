@@ -1,4 +1,5 @@
 module Expense
+  # Create a payment_voucher file.
   class Claim < Trailblazer::Operation
     step Model( ::Claim::Row, :new )
     step Contract::Build( constant: Form::Claim )
@@ -7,6 +8,10 @@ module Expense
     step Contract::Persist()
     step :serial_number!
     step :add_expenses!
+    require_relative "pack"
+    step :twin # DISCUSS: why again?
+    step Nested( ::Claim::Pack )
+    step :save_zip
 
     def add_expenses!(options, model:, **)
       options["contract.default"].expenses.each do |exp|
@@ -34,7 +39,17 @@ module Expense
       twin.serial_number = serial_number
       twin.identifier    = "PV17-N-#{"%03d" % serial_number}-TT"
       twin.type          = "payment_voucher"
+
       twin.save
+    end
+
+    def twin( ctx, model:, ** )
+      ctx[:claim] = ::Claim::Twin.new(model)
+    end
+
+    def save_zip( ctx, claim:, zip:, ** )
+      claim.archive_path = zip
+      claim.save
     end
   end
 end

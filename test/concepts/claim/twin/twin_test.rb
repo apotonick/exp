@@ -1,15 +1,18 @@
 require "test_helper"
 
 class ClaimTwinTest < Minitest::Spec
-  before { Claim::Row.truncate }
+  before { Claim::Row.truncate;  }
+
+  let(:expense_1) { factory( Expense::Create, params: { file_path: "/uploads/fixture/trb.png",  invoice_number: "I1", source: "Biosk", unit_price: "10", currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model] }
+  let(:expense_2) { factory( Expense::Create, params: { file_path: "/uploads/fixture/epic.jpg", invoice_number: "I2", source: "At",    unit_price: "11",  currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model] }
 
   describe "Expense::Claim" do
     it do
-      # FIXME: Expense::Claim test
-      expense_1 = factory( Expense::Create, params: { invoice_number: "I1", source: "Biosk", unit_price: "10", currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model]
-      expense_2 = factory( Expense::Create, params: { invoice_number: "I2", source: "At",    unit_price: "11",  currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model]
+      result     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] } )
 
-      claim     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] } )[:model]
+      result.success?.must_equal true
+
+      claim = result[:model]
 
       # did it persist?
       claim = Claim::Row[ claim.id ]
@@ -19,38 +22,45 @@ class ClaimTwinTest < Minitest::Spec
     end
   end
 
-  it do
-    # FIXME: Expense::Claim test
-    expense_1 = factory( Expense::Create, params: { invoice_number: "I1", source: "Biosk", unit_price: "10", currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model]
-    expense_2 = factory( Expense::Create, params: { invoice_number: "I2", source: "At",    unit_price: "11",  currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model]
-
-    claim     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] } )[:model]
-
-
-
+  describe "File" do
+    let(:file) { claim     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] } )[:model] }
+    let(:twin) { twin      = Claim::Twin.new( file ) }
 
     # this twin goes into Cell::Voucher.
-    twin      = Claim::Twin.new(claim)
 
-    twin.count.must_equal 2
-    twin.expenses[0].effective_money.format.must_equal "$10.60"
-    twin.expenses[1].effective_money.format.must_equal "$11.66"
+    it do
+      twin.count.must_equal 2
+      twin.expenses[0].effective_money.format.must_equal "$10.60"
+      twin.expenses[1].effective_money.format.must_equal "$11.66"
 
-    twin.expenses[0].effective_amount.must_equal "SGD $10.60"
-    twin.expenses[1].effective_amount.must_equal "SGD $11.66"
+      twin.expenses[0].effective_amount.must_equal "SGD $10.60"
+      twin.expenses[1].effective_amount.must_equal "SGD $11.66"
 
-    twin.expenses[0].index.must_equal "001"
-    twin.expenses[1].index.must_equal "002"
+      twin.expenses[0].index.must_equal "001"
+      twin.expenses[1].index.must_equal "002"
 
-    twin.effective_total_money.format.must_equal "$22.26"
-    twin.effective_total.must_equal "SGD $22.26"
+      twin.effective_total_money.format.must_equal "$22.26"
+      twin.effective_total.must_equal "SGD $22.26"
 
-    assert twin.created_at > Time.now-10 # TODO: nicer date tests.
-    assert twin.created_at <= Time.now
+      assert twin.created_at > Time.now-10 # TODO: nicer date tests.
+      assert twin.created_at <= Time.now
 
-    assert twin.serial_number.to_i > 0
-    twin.identifier.must_equal "PV17-N-00#{twin.serial_number}-TT"
+      assert twin.serial_number.to_i > 0
+      twin.identifier.must_equal "PV17-N-00#{twin.serial_number}-TT"
 
-    twin.type.must_equal "payment_voucher"
+      twin.type.must_equal "payment_voucher"
+    end
+
+    it "creates .zip" do
+      twin.archive_path.must_equal "downloads/PV17-N-00#{twin.serial_number}-TT.zip"
+
+      zip_files = []
+
+      Zip::File.open(twin.archive_path) do |zip_file|
+        zip_file.each { |entry| zip_files << [entry.to_s, entry.size] }
+      end
+
+      zip_files.must_equal [["001-trb.png", 26916], ["002-epic.jpg", 221545]]
+    end
   end
 end

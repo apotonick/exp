@@ -30,10 +30,12 @@ module Claim
       property :identifier # PV No.
       property :transaction_id
       property :type
+      property :archive_path
     end
     unnest :identifier,     from: :content
     unnest :transaction_id, from: :content
     unnest :type,           from: :content
+    unnest :archive_path,           from: :content
 
     property :serial_number
 
