@@ -29,9 +29,11 @@ module Claim
     property :content, field: :hash, default: Hash.new do
       property :identifier # PV No.
       property :transaction_id
+      property :type
     end
     unnest :identifier,     from: :content
     unnest :transaction_id, from: :content
+    unnest :type,           from: :content
 
     property :serial_number
 

@@ -33,6 +33,7 @@ module Expense
 
       twin.serial_number = serial_number
       twin.identifier    = "PV17-N-#{"%03d" % serial_number}-TT"
+      twin.type          = "payment_voucher"
       twin.save
     end
   end

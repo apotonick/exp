@@ -3,11 +3,31 @@ require "test_helper"
 class ClaimTwinTest < Minitest::Spec
   before { Claim::Row.truncate }
 
+  describe "Expense::Claim" do
+    it do
+      # FIXME: Expense::Claim test
+      expense_1 = factory( Expense::Create, params: { invoice_number: "I1", source: "Biosk", unit_price: "10", currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model]
+      expense_2 = factory( Expense::Create, params: { invoice_number: "I2", source: "At",    unit_price: "11",  currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model]
+
+      claim     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] } )[:model]
+
+      # did it persist?
+      claim = Claim::Row[ claim.id ]
+
+      claim.expenses[0] == expense_1
+      claim.expenses[1] == expense_2
+    end
+  end
+
   it do
+    # FIXME: Expense::Claim test
     expense_1 = factory( Expense::Create, params: { invoice_number: "I1", source: "Biosk", unit_price: "10", currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model]
     expense_2 = factory( Expense::Create, params: { invoice_number: "I2", source: "At",    unit_price: "11",  currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model]
 
     claim     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] } )[:model]
+
+
+
 
     # this twin goes into Cell::Voucher.
     twin      = Claim::Twin.new(claim)
@@ -30,5 +50,7 @@ class ClaimTwinTest < Minitest::Spec
 
     assert twin.serial_number.to_i > 0
     twin.identifier.must_equal "PV17-N-00#{twin.serial_number}-TT"
+
+    twin.type.must_equal "payment_voucher"
   end
 end
