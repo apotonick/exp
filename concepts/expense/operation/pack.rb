@@ -4,11 +4,11 @@ module Claim
   class Pack < Trailblazer::Operation
     step :create_zip
 
-    def create_zip( ctx, claim:, ** ) #File::Twin
+    def create_zip( ctx, claim:, archive_dir:, ** ) #File::Twin
       source_dir   = "."
       source_files = claim.expenses
 
-      zip_file = "downloads/#{claim.identifier}.zip"
+      zip_file = File.join( archive_dir, "#{claim.identifier}.zip" )
 
       return false if File.exists?(zip_file)
 

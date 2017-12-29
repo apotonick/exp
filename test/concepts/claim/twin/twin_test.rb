@@ -1,14 +1,18 @@
 require "test_helper"
 
 class ClaimTwinTest < Minitest::Spec
-  before { Claim::Row.truncate;  }
+  before do
+    Claim::Row.truncate
+    File.delete( *Dir.glob("#{archive_dir}/*.zip") )
+  end
 
+  let(:archive_dir) { "./test/downloads" }
   let(:expense_1) { factory( Expense::Create, params: { file_path: "/uploads/fixture/trb.png",  invoice_number: "I1", source: "Biosk", unit_price: "10", currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model] }
   let(:expense_2) { factory( Expense::Create, params: { file_path: "/uploads/fixture/epic.jpg", invoice_number: "I2", source: "At",    unit_price: "11",  currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model] }
 
   describe "Expense::Claim" do
     it do
-      result     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] } )
+      result     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] }, archive_dir: archive_dir )
 
       result.success?.must_equal true
 
@@ -23,7 +27,7 @@ class ClaimTwinTest < Minitest::Spec
   end
 
   describe "File" do
-    let(:file) { claim     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] } )[:model] }
+    let(:file) { claim     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] }, archive_dir: archive_dir )[:model] }
     let(:twin) { twin      = Claim::Twin.new( file ) }
 
     # this twin goes into Cell::Voucher.
@@ -52,7 +56,7 @@ class ClaimTwinTest < Minitest::Spec
     end
 
     it "creates .zip" do
-      twin.archive_path.must_equal "downloads/PV17-N-00#{twin.serial_number}-TT.zip"
+      twin.archive_path.must_equal "#{archive_dir}/PV17-N-00#{twin.serial_number}-TT.zip"
 
       zip_files = []
 
