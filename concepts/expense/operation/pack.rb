@@ -4,24 +4,24 @@ module Claim
   class Pack < Trailblazer::Operation
     step :create_zip
 
-    def create_zip( ctx, claim:, archive_dir:, ** ) #File::Twin
+    # File#records
+    #   Record#file_path FIXME: uploaded_file
+    # File#identifier
+    def create_zip( ctx, file:, archive_dir:, ** ) #File::Twin
       source_dir   = "."
-      source_files = claim.expenses
+      source_files = file.records
 
-      zip_file = File.join( archive_dir, "#{claim.identifier}.zip" )
+      zip_file = File.join( archive_dir, "#{file.identifier}.zip" )
 
       return false if File.exists?(zip_file)
 
       Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
-        source_files.each do |expense|
-           unless expense.file_path # TODO: remove me
-            warn "no file_path"
-            next
-          end
+        source_files.each do |record|
+          raise "error with #{record.inspect}" unless record.file_path # TODO: remove me
 
-          name_in_zip = "#{expense.index}-#{File.basename(expense.file_path)}"
+          name_in_zip = "#{record.index}-#{File.basename(record.file_path)}"
 
-          zip.add( name_in_zip, File.join(source_dir, expense.file_path) ) # FIXME: this could break
+          zip.add( name_in_zip, File.join(source_dir, record.file_path) ) # FIXME: this could break
         end
       end
 

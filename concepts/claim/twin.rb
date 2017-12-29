@@ -21,6 +21,8 @@ module Claim
 
     property   :created_at
     collection :expenses, twin: Expense::Twin::Create, writeable: false
+    alias_method :records, :expenses
+
     property   :id, writeable: false
     # property :count, virtual: true
 

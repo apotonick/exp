@@ -44,12 +44,12 @@ module Expense
     end
 
     def twin( ctx, model:, ** )
-      ctx[:claim] = ::Claim::Twin.new(model)
+      ctx[:file] = ::Claim::Twin.new(model)
     end
 
-    def save_zip( ctx, claim:, zip:, ** )
-      claim.archive_path = zip
-      claim.save
+    def save_zip( ctx, file:, zip:, ** )
+      file.archive_path = zip
+      file.save
     end
   end
 end
