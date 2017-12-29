@@ -6,13 +6,14 @@ class ClaimTwinTest < Minitest::Spec
     File.delete( *Dir.glob("#{archive_dir}/*.zip") )
   end
 
+  let(:upload_dir) { "./uploads/fixture" }
   let(:archive_dir) { "./test/downloads" }
-  let(:expense_1) { factory( Expense::Create, params: { file_path: "/uploads/fixture/trb.png",  invoice_number: "I1", source: "Biosk", unit_price: "10", currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model] }
-  let(:expense_2) { factory( Expense::Create, params: { file_path: "/uploads/fixture/epic.jpg", invoice_number: "I2", source: "At",    unit_price: "11",  currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model] }
+  let(:expense_1) { factory( Expense::Create, params: { file_path: "trb.png",  invoice_number: "I1", source: "Biosk", unit_price: "10", currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model] }
+  let(:expense_2) { factory( Expense::Create, params: { file_path: "epic.jpg", invoice_number: "I2", source: "At",    unit_price: "11",  currency: "AUD", folder_id: 1, txn_type: "expense", txn_account: "bank"} )[:model] }
 
   describe "Expense::Claim" do
     it do
-      result     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] }, archive_dir: archive_dir )
+      result     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] }, archive_dir: archive_dir, upload_dir: upload_dir )
 
       result.success?.must_equal true
 
@@ -27,7 +28,7 @@ class ClaimTwinTest < Minitest::Spec
   end
 
   describe "File" do
-    let(:file) { claim     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] }, archive_dir: archive_dir )[:model] }
+    let(:file) { claim     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] }, archive_dir: archive_dir, upload_dir: upload_dir )[:model] }
     let(:twin) { twin      = Claim::Twin.new( file ) }
 
     # this twin goes into Cell::Voucher.

@@ -7,8 +7,7 @@ module Claim
     # File#records
     #   Record#file_path FIXME: uploaded_file
     # File#identifier
-    def create_zip( ctx, file:, archive_dir:, ** ) #File::Twin
-      source_dir   = "."
+    def create_zip( ctx, file:, upload_dir:, archive_dir:, ** ) #File::Twin
       source_files = file.records
 
       zip_file = File.join( archive_dir, "#{file.identifier}.zip" )
@@ -21,7 +20,7 @@ module Claim
 
           name_in_zip = "#{record.index}-#{File.basename(record.file_path)}"
 
-          zip.add( name_in_zip, File.join(source_dir, record.file_path) ) # FIXME: this could break
+          zip.add( name_in_zip, File.join(upload_dir, record.file_path) ) # FIXME: this could break
         end
       end
 
