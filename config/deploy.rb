@@ -13,7 +13,7 @@ set :rbenv_ruby, File.read('.ruby-version').strip
 set :ssh_options, { :forward_agent => true }
 set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
 append :linked_files, "config/secrets.yml", ".env.production"
-append :linked_dirs, "log", "public", "tmp/pids", "tmp/cache", "tmp/sockets", "uploads"
+append :linked_dirs, "log", "public", "tmp/pids", "tmp/cache", "tmp/sockets", "uploads", "downloads"
 
 set :default_env, {
   'RACK_ENV' => 'production'
