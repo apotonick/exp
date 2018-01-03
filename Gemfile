@@ -33,8 +33,8 @@ group :development, :test do
   gem "minitest"
   gem "minitest-line"
 
-  # gem "trailblazer-test", github: "trailblazer/trailblazer-test"
-  gem "trailblazer-test", path: "../trailblazer-test"
+  gem "trailblazer-test", github: "trailblazer/trailblazer-test"
+  # gem "trailblazer-test", path: "../trailblazer-test"
 end
 
 gem "capistrano", "3.8.2"

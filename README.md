@@ -37,7 +37,8 @@ RACK_ENV=test rake db:debug
 ## Backup
 
 ```ruby
-pg_dump -U trbinc exp_production -U trbinc -W -h 127.0.0.1  >> BACKUP/__db.sql
+pg_dump -U trbinc exp_production -W -h 127.0.0.1  >> BACKUP/__db.sql
+rsync /var/www/exp/shared/uploads/ -av BACKUP/
 ```
 
 
