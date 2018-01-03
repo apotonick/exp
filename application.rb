@@ -126,7 +126,7 @@ module Exp
     end
 
     get "/paypal" do
-      Expense::File.( params: { expenses: [ 312, 313, 349, 166, 345, 7, 10, 15, 18, 20, 26, 28, 32, 33 ] }, archive_dir: "./downloads", upload_dir: "./uploads", type: "purchase-paypal", serial_number: 1, identifier: "2017-purchase-paypal-1" )
+      Expense::File.( params: { expenses: [ 346, 347, 348 ] }, archive_dir: "./downloads", upload_dir: "./uploads", type: "sale-paypal", serial_number: 1, identifier: "2017-sale-paypal-1" )
     end
   end
 end
