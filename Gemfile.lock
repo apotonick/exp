@@ -6,10 +6,11 @@ GIT
       declarative (~> 0.0.4)
       uber (>= 0.0.11, < 0.2.0)
 
-PATH
-  remote: ../trailblazer-test
+GIT
+  remote: git://github.com/trailblazer/trailblazer-test.git
+  revision: 982bd2d8a3c8fec7092b0bd5c53943df797625df
   specs:
-    trailblazer-test (2.1.0)
+    trailblazer-test (0.1.0)
 
 GEM
   remote: https://rubygems.org/
