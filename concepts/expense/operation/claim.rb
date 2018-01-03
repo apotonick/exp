@@ -48,11 +48,24 @@ module Expense
       twin.save
     end
 
+
     class Rezip < Trailblazer::Operation
       step Model( ::Claim::Row, :[] )
       step Claim.method(:twin)
       step Nested( ::Claim::Pack )
       step Claim.method(:save_zip)
+    end
+  end
+
+  class File < Claim # FIXME: rename to Records::File, make serial number injectable
+    def serial_number!( ctx, model:, type:, identifier:, serial_number:, ** )
+      twin = ::Claim::Twin.new(model)
+
+      twin.serial_number = serial_number
+      twin.identifier    = identifier
+      twin.type          = type
+
+      twin.save
     end
   end
 end

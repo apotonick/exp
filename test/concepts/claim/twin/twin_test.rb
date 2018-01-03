@@ -27,6 +27,7 @@ class ClaimTwinTest < Minitest::Spec
     end
   end
 
+  # TODO: file {financial-year identifier/ust etc/sale/purchase/ paypal/bank/stripe}
   describe "File" do
     let(:file) { claim     = Expense::Claim.( params: { expenses: [ expense_1.id, expense_2.id ] }, archive_dir: archive_dir, upload_dir: upload_dir )[:model] }
     let(:twin) { twin      = Claim::Twin.new( file ) }
@@ -82,7 +83,15 @@ class ClaimTwinTest < Minitest::Spec
       end
     end
 
+    describe "Expense::File" do
+      let(:file) { claim     = Expense::File.( params: { expenses: [ expense_1.id, expense_2.id ] }, archive_dir: archive_dir, upload_dir: upload_dir, type: "purchase-paypal", serial_number: 1, identifier: "2017-purchase-paypal-1" )[:model] }
+      let(:twin) { twin      = Claim::Twin.new( file ) }
 
+      it "creates ZIP for arbitrary Records" do
+        twin.archive_path.must_equal "#{archive_dir}/2017-purchase-paypal-1.zip"
+        zip_files_for(twin.archive_path).must_equal [["001-trb.png", 26916], ["002-epic.jpg", 221545]]
+      end
+    end
   end
 
   def zip_files_for(path)
