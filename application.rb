@@ -106,7 +106,9 @@ module Exp
 
     # FIXME: security?
     get "/debug/:id" do
-      Expense::Row.last.delete
+      row=Expense::Row.last
+      row.delete
+      return row
 
       # return Expense::Row.last.inspect
       # Expense::Update.( params: {id: 377, invoice_date: "27/12/2017"} )
