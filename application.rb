@@ -106,10 +106,10 @@ module Exp
 
     # FIXME: security?
     get "/debug/:id" do
-      Expense::Row[440].delete
+      Expense::Row.last.delete
 
       # return Expense::Row.last.inspect
-      Expense::Update.( params: {id: 377, invoice_date: "27/12/2017"} )
+      # Expense::Update.( params: {id: 377, invoice_date: "27/12/2017"} )
       CGI::escape_html Expense::Row[ params[:id] ].inspect
     end
 
