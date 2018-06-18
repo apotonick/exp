@@ -29,6 +29,8 @@ class ExpenseOperationTest < Minitest::Spec
     }
   end
 
+  let(:current_year) { DateTime.now.year }
+
   def assert_pass(operation, params, attrs_pass, &block)
     super( operation, { params: params }, attrs_pass, &block )
   end
@@ -55,8 +57,8 @@ class ExpenseOperationTest < Minitest::Spec
     it { assert_pass Expense::Create, { invoice_date: "24/12/2012" }, { invoice_date: Date.parse("24.12.2012") } }
     it { assert_pass Expense::Create, { invoice_date: "24.12.2012" }, { invoice_date: Date.parse("24.12.2012") } }
     it { assert_pass Expense::Create, { invoice_date: "24/12/12" }, { invoice_date: Date.parse("24.12.2012") } }
-    it { assert_pass Expense::Create, { invoice_date: "24/12" }, { invoice_date: Date.parse("24.12.2017") } }
-    it { assert_pass Expense::Create, { invoice_date: "24/2" }, { invoice_date: Date.parse("24.02.2017") } }
+    it { assert_pass Expense::Create, { invoice_date: "24/12" }, { invoice_date: Date.parse("24.12.#{current_year}") } }
+    it { assert_pass Expense::Create, { invoice_date: "24/2" }, { invoice_date: Date.parse("24.02.#{current_year}") } }
     it { assert_pass Expense::Create, { invoice_date: nil }, { invoice_date: nil } }
   end
 
