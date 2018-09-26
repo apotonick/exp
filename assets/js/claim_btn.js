@@ -1,4 +1,4 @@
 $(function () {
   'use strict';
-  $(".claim_btn").bootstrapSwitch();
+  //$(".claim_btn").bootstrapSwitch();
 });
