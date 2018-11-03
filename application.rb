@@ -108,7 +108,11 @@ module Exp
 
     # FIXME: security?
     get "/debug/:id" do
-      return Expense::Row.where(payment_voucher_id: 10, folder_id: 2).to_a.inspect
+      Expense::Row.where(payment_voucher_id: 10, folder_id: 2).to_a.each do |row|
+        row.payment_voucher_id = nil
+        row.save
+      end
+      return "yo"
 
 
       row=Expense::Row.last
