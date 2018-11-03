@@ -108,6 +108,9 @@ module Exp
 
     # FIXME: security?
     get "/debug/:id" do
+      return Expense::Row.where(payment_voucher_id: 10, folder_id: 2).inspect
+
+
       row=Expense::Row.last
       row.delete
       return row
