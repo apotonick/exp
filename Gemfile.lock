@@ -107,7 +107,7 @@ GEM
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
       uber (< 0.2.0)
-    rubyzip (1.2.1)
+    rubyzip (2.0.0)
     sequel (4.48.0)
     sinatra (2.0.0)
       mustermann (~> 1.0)
