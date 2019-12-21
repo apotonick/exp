@@ -106,6 +106,22 @@ module Exp
       Claim::Endpoint.rezip( params: params, sinatra: self )
     end
 
+    get "/" do
+      ctx = Expense::Index.(params: params)
+
+Bla = Struct.new(:index, :file_path)
+
+      file = Struct.new(:records, :identifier).new(ctx[:entities].each_with_index.collect { |ent,i| Bla.new(i, ent.file_path) }, "Auslagen-2018")
+      _ctx = Claim::Pack.(file: file, archive_dir: "./downloads", upload_dir: "./uploads")
+
+
+
+
+      ctx[:entities].each_with_index.collect do |twin, i|
+        [i, twin.id, twin.invoice_date, twin.invoice_number, twin.amount].join(",")
+      end.join("\n")
+    end
+
     # FIXME: security?
     get "/debug/:id" do
       # Expense::Row.where(payment_voucher_id: 10, folder_id: 2).to_a.each do |row|
