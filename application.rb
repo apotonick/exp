@@ -111,14 +111,14 @@ module Exp
 
 Bla = Struct.new(:index, :file_path)
 
-      file = Struct.new(:records, :identifier).new(ctx[:entities].each_with_index.collect { |ent,i| Bla.new(i, ent.file_path) }, "Auslagen-2018")
-      _ctx = Claim::Pack.(file: file, archive_dir: "./downloads", upload_dir: "./uploads")
+      # file = Struct.new(:records, :identifier).new(ctx[:entities].each_with_index.collect { |ent,i| Bla.new(i, ent.file_path) }, "Auslagen-2018")
+      # _ctx = Claim::Pack.(file: file, archive_dir: "./downloads", upload_dir: "./uploads")
 
 
 
 
       ctx[:entities].each_with_index.collect do |twin, i|
-        [i, twin.id, twin.invoice_date, twin.invoice_number, twin.amount].join(",")
+        [i, twin.id, twin.invoice_date.strftime("%d/%m/%y"), twin.invoice_number, twin.unit_price, twin.currency].join(",")
       end.join("\n")
     end
 
