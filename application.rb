@@ -118,7 +118,7 @@ Bla = Struct.new(:index, :file_path)
 
 
       ctx[:entities].each_with_index.collect do |twin, i|
-        [i, twin.id, twin.invoice_date.strftime("%d/%m/%y"), twin.invoice_number, (twin.unit_price/100).round(2), twin.currency].join(";")
+        [i, twin.id, twin.invoice_date.strftime("%d/%m/%y"), twin.invoice_number, (twin.unit_price/100).round(2), twin.currency, twin.description, twin.notes].join(";")
       end.join("\n")
     end
 
